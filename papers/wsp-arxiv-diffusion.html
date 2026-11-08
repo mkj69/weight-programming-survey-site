@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weight-Space Programming for Improving Image-Restoration Diffusion Models: Technical Conjectures and a Recursive Improvement Loop</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root{--bg:#fbfaf7;--panel:#fff;--ink:#1d1d1b;--muted:#6b6a65;--line:#e4e1d8;--accent:#b4441f;--soft:#f6e7df;--code:#f2f0ea}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161614;--panel:#1f1f1c;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--accent:#e9875f;--soft:#3a271f;--code:#2a2925}}
+:root[data-theme="dark"]{--bg:#161614;--panel:#1f1f1c;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--accent:#e9875f;--soft:#3a271f;--code:#2a2925}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{max-width:1180px;margin:0 auto;padding:8px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:14px}
+.bar a{color:var(--accent);text-decoration:none}
+.bar .sp{flex:1}
+.bar button{font:inherit;font-size:13px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 8px;cursor:pointer}
+.bar button.on{background:var(--soft);color:var(--ink)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 16px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:36px}
+aside{position:sticky;top:56px;align-self:start;max-height:calc(100vh - 72px);overflow:auto;font-size:13.5px;border-right:1px solid var(--line);padding-right:10px}
+aside a{display:block;color:var(--muted);text-decoration:none;padding:3px 0;line-height:1.4}
+aside a.h3{padding-left:12px;font-size:13px}
+aside a:hover{color:var(--accent)}
+main{min-width:0;max-width:820px}
+h1{font-size:26px;line-height:1.35;margin:0 0 8px}
+.meta{color:var(--muted);font-size:14px;margin-bottom:6px}
+.lic{background:var(--soft);border-radius:8px;padding:10px 14px;font-size:13.5px;margin:14px 0 28px;line-height:1.6}
+.lic a,.meta a{color:var(--accent)}
+h2,h3,h4,h5{line-height:1.4}
+h2{font-size:22px;margin:40px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+h3{font-size:18.5px;margin:28px 0 8px}
+h4,h5{font-size:16.5px;margin:22px 0 6px}
+h2 .en,h3 .en,h4 .en,h5 .en{display:block}
+h2 .zh,h3 .zh,h4 .zh,h5 .zh{display:block;color:var(--accent);font-weight:600}
+.pair{margin:0 0 18px}
+.pair .en{margin:0;color:var(--muted);font-size:15px;line-height:1.65;font-family:Georgia,"Times New Roman",serif}
+.pair .zh{margin:6px 0 0;padding-left:12px;border-left:3px solid var(--soft)}
+.miss{color:var(--accent)}
+.eq{overflow-x:auto;margin:10px 0 18px;padding:6px 0}
+figure{margin:22px 0;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px}
+figure img{display:block;max-width:100%;height:auto;margin:0 auto 10px;background:#fff;border-radius:4px}
+figure .pair{margin:0}
+figure .pair .en{font-size:14px}
+figure .pair .zh{font-size:14.5px}
+figure.code pre{margin:10px 0 0;overflow-x:auto;background:var(--code);border-radius:6px;padding:10px 12px;font-size:12.5px;line-height:1.5}
+.noimg{color:var(--muted);font-size:13px;text-align:center;padding:12px}
+.tw{overflow-x:auto;margin-top:10px}
+table{border-collapse:collapse;font-size:13px;line-height:1.45;width:100%}
+td{border-bottom:1px solid var(--line);padding:5px 7px;vertical-align:top}
+td .zh{color:var(--accent);font-size:12.5px}
+body.only-zh .pair .en,body.only-zh h2 .en,body.only-zh h3 .en,body.only-zh h4 .en,body.only-zh h5 .en{display:none}
+body.only-zh .pair .zh{border-left:0;padding-left:0;margin:0}
+@media (max-width:860px){.wrap{grid-template-columns:1fr}aside{display:none}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<a href="../index.html#list">← 返回调研</a><span class="sp"></span>
+<button type="button" id="both" class="on">中英对照</button><button type="button" id="zh">只看中文</button>
+<button type="button" id="theme">深色 / 浅色</button>
+</div></header>
+<div class="wrap">
+<aside><a class="h2" href="#s0">摘要</a>
+<a class="h2" href="#s2">1 引言</a>
+<a class="h2" href="#s9">2 背景：WSP 已取得的实证结果</a>
+<a class="h2" href="#s13">3 图像复原扩散模型为何不同</a>
+<a class="h2" href="#s18">4 三个技术猜想</a>
+<a class="h3" href="#s20">4.1 猜想 1：层级质量差距诊断</a>
+<a class="h3" href="#s31">4.2 猜想 2：有针对性的权重方向编辑能够改善图像复原质量</a>
+<a class="h3" href="#s41">4.3 猜想 3：递归改进循环</a>
+<a class="h2" href="#s49">5 需要何种水平的 AI？</a>
+<a class="h2" href="#s54">6 部署流程</a>
+<a class="h3" href="#s56">6.1 沙箱架构</a>
+<a class="h3" href="#s63">6.2 递归改进循环</a>
+<a class="h2" href="#s66">7 精确回归的挑战</a>
+<a class="h2" href="#s71">8 局限性</a>
+<a class="h2" href="#s77">9 对 RSI 的启示与讨论</a>
+<a class="h3" href="#s78">9.1 这是一条通向递归式自我改进的路径吗？</a>
+<a class="h3" href="#s81">9.2 与 LoRA 和微调的比较</a>
+<a class="h3" href="#s84">9.3 基准设计</a>
+<a class="h2" href="#s86">10 结论</a></aside>
+<main>
+<h1>Weight-Space Programming for Improving Image-Restoration Diffusion Models: Technical Conjectures and a Recursive Improvement Loop</h1>
+<div class="meta">Zhuoran Zheng,  Doubao</div>
+<div class="meta">原文：<a href="https://arxiv.org/abs/2611.04268" target="_blank" rel="noopener">https://arxiv.org/abs/2611.04268</a>（<a href="https://arxiv.org/html/2611.04268" target="_blank" rel="noopener">HTML 版</a>）</div>
+<div class="lic">原文以 <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> 许可发布，版权归原作者。本页是对原文的改编：从 arXiv HTML 版提取正文、图和表，逐段配上中文译文（由 Codex 翻译，未经原作者审阅，可能有错误，以英文原文为准）。参考文献列表和部分格式未收录。译文段落 92/92。</div>
+<h2 id="s0"><span class="en">Abstract</span><span class="zh">摘要</span></h2>
+<div class="pair p"><p class="en">Can a large language model (LLM) directly edit the weights of a diffusion-based image-restoration model to improve its restoration quality—without gradients, without paired training data, and without fine-tuning? Recent experiments on language models suggest frontier LLMs can locate and fix structural bugs by modifying as little as $0.016\%$ of parameters, but cannot instill genuinely new capabilities. We ask whether this weight-space programming (WSP) paradigm can be pushed from debugging to improvement in the precise-regression setting of image restoration (deblurring, super-resolution, denoising, inpainting). We argue that restoration diffusion UNets present a unique middle ground: low-level signal-processing layers are concentrated enough for targeted weight-direction edits, while high-level semantic layers remain distributed and resistant to sparse modification. We propose three concrete technical conjectures: (C1) an LLM can diagnose which layer causes a specific quality gap (e.g., over-smoothing, color shift, hallucinated texture) within a $200$ forward-pass budget; (C2) editing a small set of identified weight directions (e.g., scaling up high-frequency filter norms, correcting output-bias channels) can measurably improve restoration PSNR and perceptual quality; (C3) a recursive loop-LLM diagnoses $\rightarrow$ weight edit $\rightarrow$ evaluate $\rightarrow$ re-diagnose-can compound improvements across multiple rounds, constituting a minimal recursive self-improvement (RSI) loop for vision models. We analyze what AI capability level is required (arguing that targeted layer-level edits need not require superintelligence, but general capability generation does), and we detail the unique challenges of precise pixel-level regression. We provide a deployment pipeline in PyTorch-style pseudocode and outline a benchmark for empirical validation. The numerical conjectures in this manuscript are merely hypotheses.</p><p class="zh">大型语言模型（LLM）能否直接编辑基于扩散的图像复原模型的权重，以提高其复原质量，而无需梯度、配对训练数据或微调？近期针对语言模型的实验表明，前沿 LLM 仅需修改 $0.016\%$ 的参数，就能定位并修复结构性缺陷，但无法赋予模型真正的新能力。我们探讨，在图像复原（去模糊、超分辨率、去噪、修复）这一精确回归场景中，能否将这种权重空间编程（WSP）范式从缺陷修复推进到性能改进。我们认为，用于图像复原的扩散 UNet 处于一种独特的中间状态：底层信号处理层的功能足够集中，适合有针对性地编辑权重方向，而高层语义层的功能仍呈分布式分布，难以通过稀疏修改加以改变。我们提出三个具体的技术猜想：(C1) LLM 能够在 $200$ 次前向传播的预算内，诊断出造成特定质量差距（例如过度平滑、色偏、幻觉纹理）的层；(C2) 编辑一小组已识别的权重方向（例如增大高频滤波器的范数、校正输出偏置通道），能够使复原 PSNR 和感知质量获得可测量的提升；(C3) 一个由 LLM 诊断 $\rightarrow$ 权重编辑 $\rightarrow$ 评估 $\rightarrow$ 再次诊断构成的递归循环，能够在多轮迭代中累积改进，从而构成视觉模型的一个最小递归自我改进（RSI）循环。我们分析了所需的 AI 能力水平（认为有针对性的层级编辑不一定需要超级智能，但生成通用能力则需要），并详细阐述了精确像素级回归所面临的独特挑战。我们以 PyTorch 风格的伪代码给出部署流程，并概述了一个用于实证验证的基准。本稿中的数值猜想仅为假设。</p></div>
+<h2 id="s2"><span class="en">1 Introduction</span><span class="zh">1 引言</span></h2>
+<div class="pair p"><p class="en">Image restoration-recovering clean images from blurry, noisy, low-resolution, or corrupted inputs-is one of the most practical computer-vision problems. Modern diffusion-based restoration models achieve state-of-the-art quality, yet they over-smooth fine textures, hallucinate plausible-but-fake details, shift colors under specific lighting, and fail on degradation types absent from training data. Fixing these failures today requires collecting paired data and fine-tuning: expensive, slow, and risky for the rest of the distribution.</p><p class="zh">图像复原，即从模糊、含噪、低分辨率或受损的输入中恢复清晰图像，是最具实用价值的计算机视觉问题之一。现代基于扩散的图像复原模型取得了最先进的质量，但仍会过度平滑精细纹理、生成看似合理却并不真实的细节、在特定光照下产生色偏，并且无法处理训练数据中未出现的退化类型。目前，修复这些问题需要收集配对数据并进行微调：成本高、耗时长，而且可能损害模型在其余数据分布上的表现。</p></div>
+<div class="pair p"><p class="en">What if an LLM could read the restoration UNet’s weights, understand what each layer computes, and directly edit the weight tensors to make the model sharper, more color-accurate, and less hallucinatory—no gradients, no training data?</p><p class="zh">如果 LLM 能够读取复原 UNet 的权重，理解每一层的计算内容，并直接编辑权重张量，使模型的输出更加清晰、色彩更加准确、幻觉更少，而无需梯度或训练数据，会怎样？</p></div>
+<div class="pair p"><p class="en">This is the promise of Weight-Space Programming (WSP): treating neural network parameters as a text-like object an LLM can inspect, reason about, and patch (Takehi, 2026). The first evidence: a frontier LLM inspected Qwen3.5-0.8B weights and eliminated a reasoning-loop bug by modifying only $0.016\%$ of parameters (Takehi, 2026; RikiyaT, 2026a; RikiyaT, 2026b). The same experiments produced a crucial negative result: endowing a $270$M Gemma3 with new math ability via weight editing failed. WSP can unlock latent competence already present in weights, but cannot create competence from nothing.</p><p class="zh">这正是权重空间编程（WSP）的愿景：将神经网络参数视为一种类似文本的对象，供 LLM 检查、推理并修补 (Takehi, 2026)。首个证据是：一个前沿 LLM 检查了 Qwen3.5-0.8B 的权重，仅修改 $0.016\%$ 的参数便消除了一个推理循环缺陷 (Takehi, 2026; RikiyaT, 2026a; RikiyaT, 2026b)。同一组实验还得出了一个关键的负面结果：通过权重编辑赋予一个 $270$M Gemma3 新的数学能力的尝试失败了。WSP 可以释放权重中已经存在的潜在能力，但无法凭空创造能力。</p></div>
+<div class="pair p"><p class="en">This paper asks: can WSP go beyond bug-fixing and actually improve restoration quality? And does it require superintelligence?</p><p class="zh">本文探讨：WSP 能否超越缺陷修复，切实提高复原质量？这是否需要超级智能？</p></div>
+<div class="pair p"><p class="en">We focus on restoration diffusion models because: (1) restoration is a precise regression task with continuous pixel outputs and noisy perceptual metrics-harder than language modeling but more informative about WSP’s limits; (2) restoration UNets have clear layered specialization (early = low-level, bottleneck = semantic, late = output), making some layers concentrated (editable) and others distributed (not); (3) artifacts are visually verifiable.</p><p class="zh">我们聚焦于图像复原扩散模型，原因如下：(1) 复原是一项精确回归任务，其输出为连续的像素值，感知指标带有噪声——它比语言建模更难，但也更能揭示 WSP 的局限；(2) 复原 UNet 具有明确的分层功能分工（早期层 = 底层处理，瓶颈层 = 语义处理，后期层 = 输出），使得某些层的功能集中（可编辑），而其他层的功能呈分布式分布（不可编辑）；(3) 伪影可以通过视觉检查加以验证。</p></div>
+<div class="pair p"><p class="en">We make three concrete technical conjectures (Section 4), analyze what AI level is required (Section 5), describe a deployment pipeline (Section 6), and discuss RSI implications (Section 9).</p><p class="zh">我们提出三个具体的技术猜想（第 4 节），分析所需的 AI 能力水平（第 5 节），描述部署流程（第 6 节），并讨论对 RSI 的启示（第 9 节）。</p></div>
+<h2 id="s9"><span class="en">2 Background: What WSP Has Demonstrated</span><span class="zh">2 背景：WSP 已取得的实证结果</span></h2>
+<div class="pair p"><p class="en">Positive result. A frontier LLM inspected Qwen3.5-0.8B weights and eliminated a reasoning-loop bug by modifying only $0.016\%$ of parameters (Takehi, 2026). This worked because: (1) the bug was a concentrated direction in weight space, and (2) the underlying reasoning competence was already present—the bug was interference, not absence of ability. Patched weights: (RikiyaT, 2026b); full logs: (RikiyaT, 2026a).</p><p class="zh">正面结果。一个前沿 LLM 检查了 Qwen3.5-0.8B 的权重，仅修改 $0.016\%$ 的参数便消除了一个推理循环缺陷 (Takehi, 2026)。这一方法之所以有效，是因为：(1) 该缺陷对应于权重空间中的一个集中方向；(2) 模型本已具备底层推理能力——该缺陷源于干扰，而非能力缺失。修补后的权重：(RikiyaT, 2026b)；完整日志：(RikiyaT, 2026a)。</p></div>
+<div class="pair p"><p class="en">Negative result. The same experiments tried to give $270$M Gemma3 new mathematical ability via direct weight editing and failed. The LLM cannot write distributed representational structure by inspecting and modifying weight entries.</p><p class="zh">负面结果。同一组实验曾尝试通过直接编辑权重，赋予 $270$M Gemma3 新的数学能力，但未能成功。LLM 无法通过检查和修改权重条目来写入分布式表征结构。</p></div>
+<div class="pair p"><p class="en">This establishes WSP’s boundary: it unlocks latent competence suppressed by concentrated interference, but cannot create new distributed competence. The question for restoration is: which parts of a diffusion UNet are concentrated (editable) and which are distributed (not)?</p><p class="zh">这确立了 WSP 的能力边界：它能够释放被集中式干扰所抑制的潜在能力，但无法创造新的分布式能力。对于图像复原，问题在于：扩散 UNet 的哪些部分是集中式的（可编辑），哪些部分是分布式的（不可编辑）？</p></div>
+<h2 id="s13"><span class="en">3 Why Restoration Diffusion Models Are Different</span><span class="zh">3 图像复原扩散模型为何不同</span></h2>
+<div class="pair p"><p class="en">Layered specialization. A restoration UNet has three functional regions: early encoder layers do low-level signal processing (edges, colors, textures)—relatively interpretable; the bottleneck does high-level semantic reasoning—most distributed; late decoder layers do output reconstruction—the final $1\times 1$ conv bias directly controls color balance. Our hypothesis: early and late layers are WSP-friendly; the bottleneck is WSP-resistant.</p><p class="zh">分层专门化。用于图像复原的 UNet 包含三个功能区域：编码器前部层执行低层信号处理（边缘、颜色、纹理），相对易于解释；瓶颈部分执行高层语义推理，其功能的分布式程度最高；解码器后部层执行输出重建，其中最后的 $1\times 1$ 卷积层偏置直接控制色彩平衡。我们的假设是：前部层和后部层适合 WSP，而瓶颈部分难以通过 WSP 进行编辑。</p></div>
+<div class="pair p"><p class="en">Precise regression. Restoration outputs continuous pixel tensors, not discrete tokens. Quality is measured by noisy continuous metrics (PSNR, SSIM, LPIPS), not binary correct/incorrect. A weight edit has a continuous, graded effect. This makes WSP evaluation harder than in language models.</p><p class="zh">精确回归。图像复原输出的是连续像素张量，而非离散词元。其质量通过带噪声的连续指标（PSNR、SSIM、LPIPS）衡量，而非以正确或错误进行二元判定。权重编辑产生的影响是连续且具有程度差异的。这使得 WSP 在图像复原中的评估比在语言模型中更加困难。</p></div>
+<div class="pair p"><p class="en">Diffusion chain. The UNet runs $T=200$ times along a denoising Markov chain. An early-layer edit affects coarse structure; a late-layer edit affects fine detail. This temporal dimension is a bonus: if a hallucinated texture appears only in the last steps, the LLM knows to look at late decoder layers.</p><p class="zh">扩散链。UNet 沿去噪马尔可夫链运行 $T=200$ 次。对前部层的编辑影响粗略结构；对后部层的编辑影响精细细节。这一时间维度提供了额外优势：如果幻觉纹理仅在最后几个步骤中出现，LLM 就知道应检查解码器后部层。</p></div>
+<div class="pair p"><p class="en">Permutation symmetry. Swapping conv channels leaves the network functionally identical. The LLM may edit a channel that looks wrong but is actually a permuted counterpart of the true causal channel-wasting budget.</p><p class="zh">置换对称性。交换卷积通道不会改变网络的功能。LLM 可能会编辑一个看似有问题、但实际上只是实际因果通道经置换后的对应通道，从而浪费预算。</p></div>
+<h2 id="s18"><span class="en">4 Three Technical Conjectures</span><span class="zh">4 三个技术猜想</span></h2>
+<div class="pair p"><p class="en">We state three concrete, testable conjectures. Each specifies the LLM’s input, the weight it edits, the expected measurable improvement, and the failure boundary.</p><p class="zh">我们提出三个具体且可检验的猜想。每个猜想都明确了 LLM 的输入、其编辑的权重、预期可测量的改进以及失效边界。</p></div>
+<h3 id="s20"><span class="en">4.1 Conjecture 1: Layer-level quality-gap diagnosis</span><span class="zh">4.1 猜想 1：层级质量差距诊断</span></h3>
+<div class="pair p"><p class="en">Goal. Given a trained restoration diffusion model and a description of a quality gap (e.g., “outputs are too smooth,” “colors are slightly washed out,” “fine textures are hallucinated”), the LLM identifies which layer(s) are responsible, within a $200$ forward-pass budget.</p><p class="zh">目标。给定一个训练好的图像复原扩散模型以及对质量差距的描述（例如，“输出过于平滑”“颜色略显寡淡”“精细纹理存在幻觉”），LLM 在 $200$ 次前向传播的预算内识别出导致问题的层。</p></div>
+<div class="pair p"><p class="en">What the LLM sees. For each layer chunk ($5$–$10$ layers at a time): layer name, type (conv/bn/attention), channel counts, kernel size, weight histogram statistics (mean, std, sparsity), top-$k$ largest-magnitude entries, and mean activation magnitude on a small feedback set.</p><p class="zh">LLM 看到的信息。对于每个层组（每次 $5$–$10$ 层）：层名称、类型（conv/bn/attention）、通道数、卷积核大小、权重直方图统计量（均值、标准差、稀疏度）、幅值最大的前 $k$ 个元素，以及在一个小型反馈集上的平均激活幅值。</p></div>
+<div class="pair p"><p class="en">What the LLM does. It forms hypotheses based on architectural priors:</p><p class="zh">LLM 执行的操作。它基于架构先验形成假设：</p></div>
+<div class="pair p"><p class="en">• “Too smooth” $\rightarrow$ look at late decoder layers (reconstruction) and bottleneck (semantic level of detail).</p><p class="zh">• “过于平滑” $\rightarrow$ 检查解码器后部层（重建）和瓶颈部分（语义层面的细节程度）。</p></div>
+<div class="pair p"><p class="en">• “Color washed out” $\rightarrow$ look at final output conv bias and early encoder color-filtering layers.</p><p class="zh">• “颜色寡淡” $\rightarrow$ 检查最终输出卷积层的偏置以及编码器前部的颜色滤波层。</p></div>
+<div class="pair p"><p class="en">• “Hallucinated texture” $\rightarrow$ look at mid-level decoder upsampling blocks.</p><p class="zh">• “幻觉纹理” $\rightarrow$ 检查解码器中部的上采样块。</p></div>
+<div class="pair p"><p class="en">It then requests targeted ablations (e.g., “scale up all filter norms in decoder block 3 by $1.2\times$”) and observes whether the feedback-set PSNR/LPIPS improves.</p><p class="zh">随后，它请求进行有针对性的消融实验（例如，“将解码器第 3 个块中所有滤波器的范数放大至 $1.2\times$”），并观察反馈集上的 PSNR/LPIPS 是否改善。</p></div>
+<div class="pair p"><p class="en">Expected result. The LLM narrows down the responsible layer(s) to a short list ($\leq 5$ layers) within $30$ forward passes. This is not yet an edit—it is a diagnosis. The edit comes in C2.</p><p class="zh">预期结果。LLM 在 $30$ 次前向传播内，将导致问题的层缩小至一个较短的候选列表（$\leq 5$ 层）。这还不是编辑，而是诊断。编辑将在 C2 中进行。</p></div>
+<div class="pair p"><p class="en">Boundary. Diagnosis works for systematic quality gaps (the model is consistently too smooth on all images). It fails for image-specific failures (the model hallucinates on only one category of images), because the feedback set is too small to capture those distribution-specific effects.</p><p class="zh">边界。诊断适用于系统性质量差距（模型在所有图像上的输出始终过于平滑）。对于特定图像上的失效情形（模型仅在某一类图像上产生幻觉），诊断会失效，因为反馈集过小，无法捕捉这些特定分布下的效应。</p></div>
+<div class="pair p"><p class="en">Falsification. If, on a benchmark of $20$ quality-gap restoration models, the LLM fails to identify the correct layer within $50$ passes in more than half of cases, C1 is false.</p><p class="zh">证伪条件。如果在包含 $20$ 个存在质量差距的图像复原模型的基准上，LLM 在超过一半的情形中无法在 $50$ 次前向传播内识别出正确的层，则 C1 不成立。</p></div>
+<h3 id="s31"><span class="en">4.2 Conjecture 2: Targeted weight-direction editing improves restoration quality</span><span class="zh">4.2 猜想 2：有针对性的权重方向编辑能够改善图像复原质量</span></h3>
+<div class="pair p"><p class="en">Goal. Given a correctly diagnosed layer (from C1), the LLM proposes a specific weight delta that measurably improves restoration quality (PSNR $\geq+0.2$ dB, or perceptually sharper with no new artifacts), modifying $&lt;0.1\%$ of total parameters.</p><p class="zh">目标。给定一个经正确诊断确定的层（来自 C1），LLM 提出一个具体的权重增量，在修改总参数量的 $&lt;0.1\%$ 的情况下，使图像复原质量获得可测量的改善（PSNR $\geq+0.2$ dB，或感知上更加清晰且不产生新的伪影）。</p></div>
+<div class="pair p"><p class="en">Three concrete edit types we expect to work:</p><p class="zh">我们预期以下三种具体编辑类型能够奏效：</p></div>
+<div class="pair p"><p class="en">(a) Output-bias correction (color balance). If the model produces a consistent color cast (e.g., slightly greenish shadows), the LLM identifies the final $1\times 1$ output convolution’s bias vector and proposes shifting the offending channel. This is the most concentrated edit possible: a $3$-element bias vector for RGB output. Expected effect: color cast corrected, PSNR slightly improved, no side effects.</p><p class="zh">(a) 输出偏置校正（色彩平衡）。如果模型产生一致的偏色（例如，阴影略微偏绿），LLM 会识别出最终 $1\times 1$ 输出卷积层的偏置向量，并提出对导致偏色的通道进行偏移调整。这是集中程度最高的编辑：针对 RGB 输出的一个包含 $3$ 个元素的偏置向量。预期效果：偏色得到校正，PSNR 略有提升，且无副作用。</p></div>
+<div class="pair p"><p class="en">(b) High-frequency filter scaling (sharpness). If the model is over-smooth, the LLM identifies the decoder layers responsible for detail reconstruction and proposes scaling up the norms of high-frequency filters (filters with large high-pass spectral energy). This is a semi-concentrated edit: it affects a set of filters within one or two decoder blocks, not individual entries. Expected effect: sharper output, possibly slightly more noise, PSNR improvement depends on the specific degradation.</p><p class="zh">(b) 高频滤波器缩放（清晰度）。如果模型输出过度平滑，LLM 会识别出负责细节重建的解码器层，并提出增大高频滤波器（高通频谱能量较大的滤波器）的范数。这是一种半集中式编辑：它影响的是一个或两个解码器块内的一组滤波器，而非单个元素。预期效果：输出更加清晰，噪声可能略有增加，PSNR 的改善取决于具体的退化类型。</p></div>
+<div class="pair p"><p class="en">(c) Skip-connection gating (artifact suppression). If the model produces halos around high-contrast edges, the LLM identifies the skip connection that carries edge information into the decoder and proposes scaling down the skip-connection weights at the specific resolution where halos appear. This is a semi-concentrated edit targeting a specific resolution block.</p><p class="zh">(c) 跳跃连接门控（伪影抑制）。如果模型在高对比度边缘周围产生光晕，LLM 会识别出将边缘信息传入解码器的跳跃连接，并提出在出现光晕的特定分辨率处减小跳跃连接权重。这是一种针对特定分辨率模块的半集中式编辑。</p></div>
+<div class="pair p"><p class="en">What does NOT work (distributed defects). General over-smoothing caused by the bottleneck being too compressed, or hallucinated detail caused by the model’s semantic prior being too strong, cannot be fixed by sparse edits. These are distributed properties of the entire network’s representation, not localized weight directions.</p><p class="zh">不适用的情况（分布式缺陷）。由瓶颈压缩过度导致的普遍过度平滑，或由模型语义先验过强导致的幻觉细节，均无法通过稀疏编辑修复。这些是整个网络表征的分布式属性，而非局部化的权重方向。</p></div>
+<div class="pair p"><p class="en">Boundary. Sparse weight editing works when the quality gap corresponds to a concentrated weight direction. It fails when the gap is a distributed property of the representation. The taxonomy in Table 1 classifies common restoration quality gaps.</p><p class="zh">适用边界。当质量差距对应于某个集中的权重方向时，稀疏权重编辑有效。当差距属于表征的分布式属性时，该方法失效。表 1 中的分类体系对常见的复原质量差距进行了分类。</p></div>
+<figure class="tab"><div class="pair cap"><p class="en">Table 1: Expected editability of common restoration quality gaps.</p><p class="zh">表 1：常见复原质量差距的预期可编辑性。</p></div><div class="tw"><table><tr><td>Quality gap<div class="zh">质量差距</div></td><td>Concentration<div class="zh">集中程度</div></td><td>Sparse edit works?<div class="zh">稀疏编辑是否有效？</div></td></tr><tr><td>Color cast / white balance<div class="zh">偏色 / 白平衡</div></td><td>Concentrated<div class="zh">集中式</div></td><td>Yes (output bias)<div class="zh">是（输出偏置）</div></td></tr><tr><td>Checkerboard / upconv artifact<div class="zh">棋盘格 / 上采样卷积伪影</div></td><td>Concentrated<div class="zh">集中式</div></td><td>Yes (transpose conv weights)<div class="zh">是（转置卷积权重）</div></td></tr><tr><td>Halos on edges<div class="zh">边缘光晕</div></td><td>Semi-concentrated<div class="zh">半集中式</div></td><td>Maybe (skip connection scale)<div class="zh">可能（跳跃连接缩放系数）</div></td></tr><tr><td>Over-sharpening / ringing<div class="zh">过度锐化 / 振铃</div></td><td>Semi-concentrated<div class="zh">半集中式</div></td><td>Maybe (high-freq filter norm)<div class="zh">可能（高频滤波器范数）</div></td></tr><tr><td>Global over-smoothing<div class="zh">全局过度平滑</div></td><td>Distributed<div class="zh">分布式</div></td><td>No (needs retraining)<div class="zh">否（需要重新训练）</div></td></tr><tr><td>Hallucinated texture<div class="zh">幻觉纹理</div></td><td>Distributed<div class="zh">分布式</div></td><td>No (semantic prior issue)<div class="zh">否（语义先验问题）</div></td></tr><tr><td>Domain gap (RAW vs sRGB)<div class="zh">域差距（RAW 与 sRGB）</div></td><td>Distributed<div class="zh">分布式</div></td><td>No (representation mismatch)<div class="zh">否（表征不匹配）</div></td></tr></table></div></figure>
+<div class="pair p"><p class="en">Falsification. If the LLM cannot improve PSNR by $\geq 0.2$ dB on at least half of the concentrated-defect benchmark cases, with $&lt;0.1\%$ parameters edited, C2 is false.</p><p class="zh">证伪条件。如果在编辑参数占比 $&lt;0.1\%$ 的情况下，LLM 无法在至少一半的集中式缺陷基准案例上使 PSNR 提升 $\geq 0.2$ dB，则 C2 不成立。</p></div>
+<h3 id="s41"><span class="en">4.3 Conjecture 3: Recursive improvement loop</span><span class="zh">4.3 猜想 3：递归改进循环</span></h3>
+<div class="pair p"><p class="en">Goal. After one successful edit, the LLM re-diagnoses the improved model and proposes a second edit, compounding improvements across multiple rounds. This recursive loop—diagnose $\rightarrow$ edit $\rightarrow$ evaluate $\rightarrow$ re-diagnose—is a minimal form of recursive self-improvement (RSI) for vision models.</p><p class="zh">目标。在一次成功编辑后，LLM 对改进后的模型重新进行诊断，并提出第二次编辑，使改进效果在多轮中累积。这一递归循环——诊断 $\rightarrow$ 编辑 $\rightarrow$ 评估 $\rightarrow$ 重新诊断——是视觉模型递归自我改进（RSI）的一种最简形式。</p></div>
+<div class="pair p"><p class="en">How it works. Round $1$: LLM diagnoses color cast, fixes output bias. Round $2$: with color cast gone, the LLM re-evaluates and now notices the model is slightly over-smooth on texture. It scales up high-frequency filters in decoder block 3. Round $3$: now sharper, the LLM notices a mild halo around edges and adjusts the skip-connection scale. Each round starts from the improved model and targets the next most prominent quality gap.</p><p class="zh">工作方式。第 $1$ 轮：LLM 诊断出偏色，修正输出偏置。第 $2$ 轮：偏色消除后，LLM 重新评估，此时发现模型对纹理的处理略显过度平滑。它增大解码器模块 3 中高频滤波器的缩放系数。第 $3$ 轮：此时结果更加清晰，LLM 发现边缘周围存在轻微光晕，并调整跳跃连接的缩放系数。每一轮均以改进后的模型为起点，并针对下一个最突出的质量差距进行处理。</p></div>
+<div class="pair p"><p class="en">Why this is plausible. Each edit is small ($&lt;0.1\%$ cumulative), and each round’s diagnosis is on a model that is slightly better than the last. The LLM never has to solve the whole problem at once; it solves one sub-problem per round. This is analogous to how a human engineer iteratively improves a model: fix the worst artifact first, then the next, then the next.</p><p class="zh">合理性依据。每次编辑的幅度都很小（累计 $&lt;0.1\%$），而且每一轮诊断所针对的模型都比上一轮略有改善。LLM 无须一次性解决整个问题；它每轮解决一个子问题。这类似于人类工程师迭代改进模型的方式：先修复最严重的伪影，再修复下一个，然后再修复下一个。</p></div>
+<div class="pair p"><p class="en">Boundary and diminishing returns. Improvements should be monotonically positive but diminishing. After $5$–$10$ rounds, the remaining quality gaps should be distributed (not sparsely editable), and the loop should plateau. The total improvement over a full loop might be $+0.5$–$1.5$ dB PSNR—meaningful, but not a leap from bad to state-of-the-art.</p><p class="zh">适用边界与收益递减。改进应始终为正，但幅度逐渐减小。经过 $5$–$10$ 轮后，剩余的质量差距应具有分布式特征（无法通过稀疏编辑处理），循环应进入平台期。完整循环带来的 PSNR 总提升可能为 $+0.5$–$1.5$ dB——这一提升具有实际意义，但并非从较差水平跃升至最先进水平。</p></div>
+<div class="pair p"><p class="en">Why this matters for RSI. This loop is a concrete, small-scale RSI mechanism: the LLM improves a model, then uses the improved model as the starting point for further improvement. It is not AGI-level recursive self-improvement; it is a constrained, budget-limited debugging loop. But it demonstrates the core principle: a model-improving agent (the LLM) can iteratively modify its target (the restoration UNet) in the weight space.</p><p class="zh">对 RSI 的意义。这一循环是一种具体的小规模 RSI 机制：LLM 改进模型，随后将改进后的模型作为进一步改进的起点。它并非 AGI 级别的递归自我改进，而是一个受到约束且预算有限的调试循环。但它展示了核心原理：改进模型的智能体（LLM）可以在权重空间中迭代修改其目标模型（复原 UNet）。</p></div>
+<div class="pair p"><p class="en">Falsification. If improvements do not compound across rounds (i.e., round $2$ edit makes things worse or no better than round $1$ baseline), or if total improvement over $10$ rounds is $&lt;0.2$ dB, C3 is false.</p><p class="zh">证伪条件。如果改进效果无法跨轮次累积（即第 $2$ 轮编辑使结果变差，或未优于第 $1$ 轮基线），或者 $10$ 轮后的总提升 $&lt;0.2$ dB，则 C3 不成立。</p></div>
+<figure class="tab"><div class="pair cap"><p class="en">Table 2: Summary of the three conjectures.</p><p class="zh">表 2：三个猜想的汇总。</p></div><div class="tw"><table><tr><td>Conjecture<div class="zh">猜想</div></td><td>What it does<div class="zh">作用</div></td><td>Expected gain<div class="zh">预期收益</div></td></tr><tr><td>C1: Diagnosis<div class="zh">C1：诊断</div></td><td>Locate responsible layer(s)<div class="zh">定位相关层</div></td><td>$20$–$50$ fwd passes<div class="zh">$20$–$50$ 次前向传播</div></td></tr><tr><td>C2: Sparse edit<div class="zh">C2：稀疏编辑</div></td><td>Improve quality via weight delta<div class="zh">通过权重增量提高质量</div></td><td>$+0.2$–$0.5$ dB PSNR<div class="zh">PSNR 提升 $+0.2$–$0.5$ dB</div></td></tr><tr><td>C3: Recursive loop<div class="zh">C3：递归循环</div></td><td>Compound improvements<div class="zh">累积改进效果</div></td><td>$+0.5$–$1.5$ dB total<div class="zh">总计提升 $+0.5$–$1.5$ dB</div></td></tr></table></div></figure>
+<h2 id="s49"><span class="en">5 What Level of AI Is Needed?</span><span class="zh">5 需要何种水平的 AI？</span></h2>
+<div class="pair p"><p class="en">What current frontier LLMs can do. Based on language-model evidence (Takehi, 2026), a GPT-6-class LLM can: read weight statistics and form layer-function hypotheses, propose simple structured deltas (shift a bias channel, scale a filter norm), and use architectural priors (early layers = low-level, late = output). These capabilities suffice for C1 (diagnosis) and C2 (concentrated-defect editing). This is pattern-matching + reasoning, not superintelligence.</p><p class="zh">当前前沿 LLM 的能力。根据语言模型方面的证据 (Takehi, 2026)，GPT-6 级别的 LLM 能够：读取权重统计信息并形成关于层功能的假设，提出简单的结构化增量（平移某个偏置通道的值、缩放某个滤波器的范数），以及利用架构先验（早期层 = 低层特征，后期层 = 输出）。这些能力足以支持 C1（诊断）和 C2（集中式缺陷编辑）。这属于模式匹配 + 推理，而非超级智能。</p></div>
+<div class="pair p"><p class="en">What current LLMs cannot do. Write distributed representations from scratch (the Gemma3-270M math failure), reason about cross-layer interactions requiring two distant layers in context simultaneously, or predict edit effects across the full $T$-step denoising chain without running it.</p><p class="zh">当前 LLM 尚不具备的能力。从零开始构建分布式表征（Gemma3-270M 在数学任务上的失败），对需要同时将两个相距较远的层纳入上下文的跨层交互进行推理，或在不实际运行完整的 $T$ 步去噪链的情况下预测编辑对整个去噪链的影响。</p></div>
+<div class="pair p"><p class="en">Do we need AGI? For targeted editing (fixing known quality gaps in an already-trained model), probably not. Current frontier LLMs have enough reasoning and numeric output capability. For from-scratch weight generation, yes—writing a functional $10$M-parameter conv net from scratch requires understanding the optimization landscape that produced those weights.</p><p class="zh">我们需要 AGI 吗？对于定向编辑（修复已训练模型中已知的质量缺陷），可能不需要。当前的前沿 LLM 已具备足够的推理和数值输出能力。对于从零开始生成权重，则需要——从零开始编写一个可正常工作的 $10$M 参数卷积网络，需要理解产生这些权重的优化景观。</p></div>
+<div class="pair p"><p class="en">Hybrid middle ground. The most practical path: LLM diagnoses and proposes a weight direction, then a small gradient fine-tune polishes it. The LLM provides high-level direction; the optimizer provides pixel-level precision.</p><p class="zh">混合式折中方案。最实用的路径是：由 LLM 进行诊断并提出权重调整方向，再通过少量基于梯度的微调加以完善。LLM 提供高层方向；优化器提供像素级精度。</p></div>
+<h2 id="s54"><span class="en">6 Deployment Pipeline</span><span class="zh">6 部署流程</span></h2>
+<div class="pair p"><p class="en">The sandbox sits between the LLM and the frozen restoration UNet. It enforces budgets, isolates data, and provides structured feedback.</p><p class="zh">沙箱位于 LLM 与冻结的图像复原 UNet 之间。它负责执行预算限制、隔离数据并提供结构化反馈。</p></div>
+<h3 id="s56"><span class="en">6.1 Sandbox architecture</span><span class="zh">6.1 沙箱架构</span></h3>
+<div class="pair p"><p class="en">1. Chunked weight access: LLM receives $5$–$10$ layers at a time, with compressed statistics (histogram, top-$k$ entries, activation norms).</p><p class="zh">1. 分块权重访问：LLM 每次接收 $5$–$10$ 层，以及压缩后的统计信息（直方图、前 $k$ 个条目、激活范数）。</p></div>
+<div class="pair p"><p class="en">2. Forward-pass budget: $30$–$50$ total evaluations per WSP session.</p><p class="zh">2. 前向传播预算：每次 WSP 会话共允许 $30$–$50$ 次评估。</p></div>
+<div class="pair p"><p class="en">3. Edit-ratio cap: $&lt;0.1\%$ of total parameters modified cumulatively.</p><p class="zh">3. 编辑比例上限：累计修改的参数占总参数的比例为 $&lt;0.1\%$。</p></div>
+<div class="pair p"><p class="en">4. Feedback/test isolation: $32$–$64$ image pairs for feedback; held-out test set for final evaluation.</p><p class="zh">4. 反馈与测试隔离：使用 $32$–$64$ 对图像提供反馈；使用留出的测试集进行最终评估。</p></div>
+<div class="pair p"><p class="en">5. Automatic acceptance criterion: accept an edit only if PSNR improves by $\geq 0.1$ dB on feedback set and no new artifacts appear.</p><p class="zh">5. 自动接受准则：仅当编辑使反馈集上的 PSNR 提升 $\geq 0.1$ dB，且未出现新的伪影时，才接受该编辑。</p></div>
+<figure class="code"><div class="pair cap"><p class="en">Listing 1: WSP sandbox: budget-controlled edit evaluation.</p><p class="zh">代码清单 1：WSP 沙箱：受预算控制的编辑评估。</p></div><pre><code>class WSPSandbox:
+    def __init__(self, unet, feedback, budget=40,
+                 max_ratio=1e-3, psnr_min=0.1):
+        self.unet, self.feedback = unet, feedback
+        self.budget, self.used = budget, 0
+        self.max_ratio, self.psnr_min = max_ratio, psnr_min
+        self.base_psnr = self._eval_psnr()
+
+    def propose_edit(self, layer, slc, delta):
+        if self.used &gt;= self.budget:
+            raise BudgetExceeded()
+        edited = deepcopy(self.unet)
+        set_weight(edited, layer, slc, delta)
+        self.used += 1
+        new_psnr = self._eval_psnr(edited)
+        if new_psnr - self.base_psnr &gt;= self.psnr_min:
+            self.unet = edited
+            self.base_psnr = new_psnr
+            return f"accepted: {new_psnr:.2f} dB"
+        return f"rejected: {new_psnr:.2f} dB"
+
+    def _eval_psnr(self, model=None):
+        m = model or self.unet
+        with torch.no_grad():
+            return mean(psnr(run_chain(m, d), c)
+                        for d, c in self.feedback)</code></pre></figure>
+<h3 id="s63"><span class="en">6.2 Recursive improvement loop</span><span class="zh">6.2 递归改进循环</span></h3>
+<div class="pair p"><p class="en">The outer loop repeatedly calls the LLM with the current model state and quality-gap description, accepts improving edits, and stops when the budget is exhausted or no further improvement is found.</p><p class="zh">外层循环反复以当前模型状态和质量缺陷描述调用 LLM，接受能够带来改进的编辑，并在预算耗尽或无法找到进一步改进时停止。</p></div>
+<figure class="code"><div class="pair cap"><p class="en">Listing 2: Recursive WSP improvement loop.</p><p class="zh">代码清单 2：递归 WSP 改进循环。</p></div><pre><code>class RecursiveWSP:
+    def __init__(self, sandbox, llm, chunks):
+        self.sandbox, self.llm = sandbox, llm
+        self.chunks, self.log = chunks, []
+
+    def improve(self, gap_desc):
+        rnd = 0
+        while self.sandbox.used &lt; self.sandbox.budget:
+            rnd += 1
+            found = False
+            for chunk in self.chunks:
+                stats = self.sandbox.layer_stats(chunk)
+                prompt = build_prompt(gap_desc, stats, rnd)
+                prop = self.llm.complete(prompt)  # JSON
+                if prop["type"] == "edit":
+                    res = self.sandbox.propose_edit(
+                        prop["layer"], prop["slice"], prop["delta"])
+                    self.log.append({"rnd": rnd, "prop": prop, "res": res})
+                    if res.startswith("accepted"):
+                        found = True
+                        break
+            if not found:
+                break
+        return self.sandbox.unet, self.log</code></pre></figure>
+<h2 id="s66"><span class="en">7 Challenges of Precise Regression</span><span class="zh">7 精确回归的挑战</span></h2>
+<div class="pair p"><p class="en">Continuous vs. discrete feedback. In language models, feedback is binary (correct/incorrect token). In restoration, feedback is a noisy scalar ($\Delta$PSNR). The LLM must correlate weight changes with tiny PSNR deltas—harder than binary signals.</p><p class="zh">连续反馈与离散反馈。在语言模型中，反馈是二元的（词元正确或错误）。在图像复原中，反馈是一个带噪声的标量（$\Delta$PSNR）。LLM 必须将权重变化与微小的 PSNR 变化关联起来——这比处理二元信号更难。</p></div>
+<div class="pair p"><p class="en">Sampling stochasticity. Diffusion sampling is seed-dependent. A $0.1$ dB difference may be within noise. The sandbox must average over multiple seeds per evaluation, but this consumes budget: with $40$ passes, only $2$–$3$ seeds per evaluation.</p><p class="zh">采样随机性。扩散采样依赖于随机种子。$0.1$ dB 的差异可能处于噪声范围内。沙箱必须在每次评估中对多个随机种子的结果取平均，但这会消耗预算：在 $40$ 次前向传播的预算下，每次评估只能使用 $2$–$3$ 个随机种子。</p></div>
+<div class="pair p"><p class="en">Pixel metrics vs. perception. PSNR/SSIM correlate poorly with human perception. An edit that raises PSNR may look worse (over-smoothing). The LLM needs both scalar metrics and visual feedback (before/after image grids), but visual feedback costs more tokens.</p><p class="zh">像素指标与感知。PSNR/SSIM 与人类感知的相关性较差。提高 PSNR 的编辑可能使视觉效果变差（过度平滑）。LLM 同时需要标量指标和视觉反馈（编辑前后的图像网格），但视觉反馈会消耗更多词元。</p></div>
+<div class="pair p"><p class="en">Denoiser chain dynamics. An edit may help at $T=50$ steps but hurt at $T=100$. Single-number PSNR does not capture step-dependent effects.</p><p class="zh">去噪器链的动态特性。某次编辑可能在 $T=50$ 步时有益，却在 $T=100$ 步时有害。单一数值的 PSNR 无法反映随步数变化的效应。</p></div>
+<h2 id="s71"><span class="en">8 Limitations</span><span class="zh">8 局限性</span></h2>
+<div class="pair p"><p class="en">Scale. A $100$M-parameter UNet cannot fit in any LLM context. The LLM works on compressed summaries, not raw weights.</p><p class="zh">规模。任何 LLM 的上下文都无法容纳一个 $100$M 参数的 UNet。LLM 处理的是压缩摘要，而非原始权重。</p></div>
+<div class="pair p"><p class="en">Distributed defects. General over-smoothing or hallucinated texture are distributed properties—no sparse edit fixes them. WSP is a precision instrument, not a general training method.</p><p class="zh">分布式缺陷。普遍存在的过度平滑或幻觉纹理属于分布式特性，无法通过稀疏编辑修复。WSP 是一种精密工具，而非通用训练方法。</p></div>
+<div class="pair p"><p class="en">Permutation symmetry. Channel permutation makes weight interpretation ambiguous; the LLM may waste budget on the wrong channel.</p><p class="zh">置换对称性。通道置换使权重解释存在歧义；LLM 可能将预算浪费在错误的通道上。</p></div>
+<div class="pair p"><p class="en">OOD side effects. An edit that helps the feedback set may hurt out-of-distribution images. Full regression testing is mandatory.</p><p class="zh">OOD 副作用。对反馈集有益的编辑可能损害分布外图像的效果。必须进行完整的回归测试。</p></div>
+<div class="pair p"><p class="en">LLM search bias. The LLM may prefer editing late layers (easier to reason about). Randomizing chunk order mitigates this.</p><p class="zh">LLM 搜索偏置。LLM 可能更倾向于编辑靠后的层（更容易进行推理）。随机化分块顺序可以缓解这一问题。</p></div>
+<h2 id="s77"><span class="en">9 RSI Implications and Discussion</span><span class="zh">9 对 RSI 的启示与讨论</span></h2>
+<h3 id="s78"><span class="en">9.1 Is this a path to recursive self-improvement?</span><span class="zh">9.1 这是一条通向递归式自我改进的路径吗？</span></h3>
+<div class="pair p"><p class="en">The recursive loop in C3 is a minimal RSI mechanism: an LLM improves a model, then uses the improved model as the starting point for further improvement. But it is bounded: budget-limited, human-supervised, incremental ($&lt;0.1\%$ parameters, $&lt;1.5$ dB total). It is not an autonomous self-improving system—the human defines what to improve, the sandbox evaluates, and the loop plateaus at distributed-defect boundaries.</p><p class="zh">C3 中的递归循环是一种最小化的 RSI 机制：LLM 改进一个模型，再以改进后的模型为起点继续改进。但这一过程受到约束：预算有限、由人类监督，且改进幅度有限（$&lt;0.1\%$ 的参数，总提升 $&lt;1.5$ dB）。它并非自主的自我改进系统——人类定义改进目标，沙箱负责评估，而循环在触及分布式缺陷的边界时进入平台期。</p></div>
+<div class="pair p"><p class="en">That said, it is a proof of concept for the RSI principle: a model-improving agent operating in weight space. As LLMs improve at weight reasoning and sandbox budgets grow, the loop will compound more. The next threshold is whether the LLM can start proposing what to improve (not just how to edit).</p><p class="zh">尽管如此，它仍然是对 RSI 原理的概念验证：一个在权重空间中运行的模型改进智能体。随着 LLM 的权重推理能力提升以及沙箱预算增加，该循环的累积改进效应将进一步增强。下一个门槛是 LLM 能否开始提出改进目标（而不仅仅是如何编辑）。</p></div>
+<h3 id="s81"><span class="en">9.2 Comparison to LoRA and fine-tuning</span><span class="zh">9.2 与 LoRA 和微调的比较</span></h3>
+<div class="pair p"><p class="en">WSP is complementary, not competitive. LoRA/FT adjust $1$–$100\%$ of parameters with gradients over hours/days; WSP adjusts $&lt;0.1\%$ with LLM reasoning over minutes. Practical workflow: WSP for quick targeted fixes, LoRA/FT for broad quality improvements.</p><p class="zh">WSP 与它们是互补关系，而非竞争关系。LoRA/FT 在数小时至数天内通过梯度调整 $1$–$100\%$ 的参数；WSP 则在数分钟内通过 LLM 推理调整 $&lt;0.1\%$ 的参数。实际工作流程是：使用 WSP 快速修复特定问题，使用 LoRA/FT 实现广泛的质量提升。</p></div>
+<figure class="tab"><div class="pair cap"><p class="en">Table 3: WSP vs. LoRA vs. full fine-tuning for restoration.</p><p class="zh">表 3：WSP、LoRA 与全量微调在图像复原中的比较。</p></div><div class="tw"><table><tr><td>Dimension<div class="zh">维度</div></td><td>WSP</td><td>LoRA</td><td>Full FT<div class="zh">全量 FT</div></td></tr><tr><td>Gradient needed?<div class="zh">是否需要梯度？</div></td><td>No</td><td>Yes<div class="zh">是</div></td><td>Yes<div class="zh">是</div></td></tr><tr><td>Params edited<div class="zh">编辑的参数量</div></td><td>$&lt;$$0.1\%$</td><td>$1$–$10\%$</td><td>$100\%$</td></tr><tr><td>Data needed<div class="zh">所需数据</div></td><td>Feedback set<div class="zh">反馈集</div></td><td>Paired dataset<div class="zh">配对数据集</div></td><td>Paired dataset<div class="zh">配对数据集</div></td></tr><tr><td>Speed<div class="zh">速度</div></td><td>Minutes<div class="zh">数分钟</div></td><td>Hours<div class="zh">数小时</div></td><td>Days<div class="zh">数天</div></td></tr><tr><td>Best for<div class="zh">最适用场景</div></td><td>Targeted fixes<div class="zh">定向修复</div></td><td>Domain adaptation<div class="zh">领域适应</div></td><td>Full retrain<div class="zh">完整重训练</div></td></tr></table></div></figure>
+<h3 id="s84"><span class="en">9.3 Benchmark design</span><span class="zh">9.3 基准设计</span></h3>
+<div class="pair p"><p class="en">Test set: concentrated defects (injected: output-bias color cast, transposed-conv checkerboard, skip-connection halo) as positive cases; distributed defects (natural: over-smoothing, hallucinated texture, domain gap) as negative controls. Success = LLM fixes concentrated defects within budget and fails on distributed ones.</p><p class="zh">测试集：将集中式缺陷（人为注入：输出偏置导致的偏色、转置卷积导致的棋盘格伪影、跳跃连接导致的光晕）作为阳性案例；将分布式缺陷（自然产生：过度平滑、幻觉纹理、领域差距）作为阴性对照。成功 = LLM 在预算内修复集中式缺陷，同时无法修复分布式缺陷。</p></div>
+<h2 id="s86"><span class="en">10 Conclusion</span><span class="zh">10 结论</span></h2>
+<div class="pair p"><p class="en">We have proposed three concrete technical conjectures for applying Weight-Space Programming to improve image-restoration diffusion models: (C1) layer-level quality-gap diagnosis within a $20$–$50$ forward-pass budget; (C2) targeted weight-direction edits improving PSNR by $0.2$–$0.5$ dB on concentrated defects; (C3) a recursive improvement loop compounding gains to $0.5$–$1.5$ dB total.</p><p class="zh">我们提出了三项具体的技术猜想，旨在应用权重空间编程来改进图像复原扩散模型：(C1) 在 $20$–$50$ 次前向传播的预算内进行层级质量差距诊断；(C2) 通过有针对性的权重方向编辑，针对集中出现的缺陷将 PSNR 提高 $0.2$–$0.5$ dB；(C3) 通过递归改进循环累积增益，使总增益达到 $0.5$–$1.5$ dB。</p></div>
+<div class="pair p"><p class="en">We argue that targeted, layer-level weight editing does not require superintelligence: current frontier LLMs have enough architectural reasoning and numeric output capability to propose simple structured edits (shift a bias, scale a filter norm, adjust a skip connection). What current LLMs cannot do is generate new distributed representations from scratch—that still requires gradient-based training.</p><p class="zh">我们认为，有针对性的层级权重编辑并不需要超级智能：当前最前沿的 LLM 已具备足够的架构推理能力和数值输出能力，能够提出简单的结构化编辑方案（平移偏置、缩放滤波器范数、调整跳跃连接）。当前 LLM 尚无法做到的是从零开始生成新的分布式表示——这仍然需要基于梯度的训练。</p></div>
+<div class="pair p"><p class="en">Image restoration is a hard testbed for WSP because it is a precise regression task with continuous outputs, stochastic sampling, and noisy perceptual metrics. But it is also a valuable testbed: artifacts are visually verifiable, models are small enough to sandbox, and failure modes are well-documented.</p><p class="zh">图像复原是 WSP 的一个高难度试验平台，因为它是一项精确的回归任务，具有连续输出、随机采样以及含噪的感知指标。但它也是一个有价值的试验平台：伪影可以通过视觉检验，模型规模足够小，便于在沙箱中运行，而且其失效模式已有详尽记录。</p></div>
+<div class="pair p"><p class="en">The practical decision rule: if your restoration model has a specific, identifiable quality gap (wrong color balance, checkerboard artifacts, edge halos), try WSP as a fast, cheap first step. If your model has a general quality gap (too blurry, hallucinates detail, fails on new degradation types), WSP will not help—collect data and fine-tune.</p><p class="zh">实际决策准则如下：如果你的复原模型存在特定且可识别的质量差距（色彩平衡错误、棋盘格伪影、边缘光晕），可以尝试将 WSP 作为快速、低成本的第一步。如果你的模型存在普遍性的质量差距（过于模糊、凭空生成细节、无法应对新的退化类型），WSP 将无济于事——应收集数据并进行微调。</p></div>
+<div class="pair p"><p class="en">The recursive loop in C3 is a small but concrete step toward weight-space self-improvement. Whether it scales from targeted debugging to general capability improvement depends on whether LLMs can eventually reason about distributed representations—the same boundary that the Gemma3-270M math experiment (Takehi, 2026) first revealed. The next step is to run the experiments.</p><p class="zh">C3 中的递归循环是迈向权重空间自我改进的一小步，但却是具体的一步。它能否从针对性调试扩展到通用能力提升，取决于 LLM 最终能否对分布式表示进行推理——这正是 Gemma3-270M 数学实验 (Takehi, 2026) 首次揭示的能力边界。下一步是开展实验。</p></div>
+</main>
+</div>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const go=()=>{if(!window.renderMathInElement)return setTimeout(go,100);
+    renderMathInElement(document.querySelector('main'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredClasses:['lic']});};
+  go();
+  const b=document.body,both=document.getElementById('both'),zh=document.getElementById('zh');
+  const set=m=>{b.classList.toggle('only-zh',m==='zh');both.classList.toggle('on',m!=='zh');zh.classList.toggle('on',m==='zh');try{localStorage.setItem('mode',m)}catch(e){}};
+  both.onclick=()=>set('both');zh.onclick=()=>set('zh');
+  try{const m=localStorage.getItem('mode');if(m)set(m)}catch(e){}
+  const root=document.documentElement;
+  try{const t=localStorage.getItem('theme');if(t)root.dataset.theme=t}catch(e){}
+  document.getElementById('theme').onclick=()=>{const d=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;root.dataset.theme=d?'light':'dark';try{localStorage.setItem('theme',root.dataset.theme)}catch(e){}};
+});
+</script>
+</body>
+</html>
