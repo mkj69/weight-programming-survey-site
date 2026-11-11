@@ -478,7 +478,8 @@
   "from": [
    "rome2022",
    "taskarith2022",
-   "tracr2023"
+   "tracr2023",
+   "dspy2023"
   ],
   "short": "Sparks of WSP"
  },
@@ -581,5 +582,27 @@
    "sparks2026"
   ],
   "short": "Jevlar"
+ },
+ {
+  "key": "dspy2023",
+  "year": 2023.8,
+  "cat": "wsp",
+  "title": "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines",
+  "who": "Khattab et al.",
+  "short": "DSPy",
+  "note": "Programs built from declared LM modules, then compiled by optimizers that tune prompts, examples, or weights. The 'programming, not prompting' view that weight-space programming later extends to weights."
+ },
+ {
+  "key": "handwired2026",
+  "year": 2026.79,
+  "cat": "compile",
+  "title": "Handwired: turn your regular JavaScript code into a neural net",
+  "who": "Cheng Lou",
+  "url": "https://github.com/chenglou/handwired",
+  "short": "Handwired",
+  "note": "A compiler from ordinary JavaScript to network weights, with no training and outputs that match the program exactly; runs in the browser.",
+  "from": [
+   "tracr2023"
+  ]
  }
 ]

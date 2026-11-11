@@ -71,6 +71,17 @@ def main():
     star = field(body, "star").lower()
     tags = [t.strip() for t in field(body, "tags").split(",") if t.strip()]
     cats = [c.strip() for c in re.split(r"[,\s]+", field(body, "category")) if c.strip() in TAG_CAT]
+    if kind == "settings":
+        val = field(body, "daily_updates").lower()
+        if val not in ("on", "off"):
+            print("Write `daily_updates: on` or `daily_updates: off`.")
+            sys.exit(1)
+        sp = os.path.join(ROOT, "data", "settings.json")
+        st = json.load(open(sp)) if os.path.exists(sp) else {}
+        st["daily_updates"] = val
+        json.dump(st, open(sp, "w"), indent=1)
+        print("Daily updates are now **" + ("paused" if val == "off" else "on") + "**.")
+        return
     m = re.search(r"```json\s*(\{.*?\})\s*```", body, re.S)
     if kind == "edit" and m:
         edits = json.loads(m.group(1))

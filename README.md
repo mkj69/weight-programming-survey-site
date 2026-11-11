@@ -259,6 +259,3 @@ crawler/                    everything that builds the data (see above)
 - **Dates for some papers show the year only**, because the source only gives the year.
 - **The daily job uses rules only**, so it misses items whose titles do not name the topic, and its
   summaries are the first sentence of the abstract until the summary step is rerun.
-
-The bilingual (Chinese and English) survey this collection grew out of is kept in a separate
-private repository.

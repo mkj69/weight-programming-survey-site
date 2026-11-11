@@ -246,6 +246,16 @@
     box.appendChild(s);
   }
 
+  fetch("data/settings.json?t=" + Date.now()).then((r) => r.json()).then((st) => {
+    const on = st.daily_updates !== "off";
+    $("dailyState").textContent = `Daily updates at 8:00 Chicago time: ${on ? "on" : "paused"}`;
+    $("dailyToggle").textContent = on ? "Pause" : "Resume";
+    $("dailyToggle").onclick = (e) => {
+      e.preventDefault();
+      const body = `daily_updates: ${on ? "off" : "on"}\n\nSubmit this issue to ${on ? "pause" : "resume"} the daily update.`;
+      window.open(`https://github.com/${C.repo}/issues/new?labels=settings&title=${encodeURIComponent(on ? "Pause daily updates" : "Resume daily updates")}&body=${encodeURIComponent(body)}`, "_blank", "noopener");
+    };
+  }).catch(() => {});
   $("save").onclick = () => {
     const edits = {};
     for (const [id, p] of Object.entries(pending)) { edits[id] = {}; if (p.star !== undefined) edits[id].star = p.star; if (p.tags) edits[id].tags = p.tags; p.saved = true; }

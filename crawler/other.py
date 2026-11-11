@@ -30,7 +30,7 @@ TEXT_QUERIES = [
 def get(url, headers=UA, tries=5):
     for k in range(tries):
         try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=60) as r:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=30) as r:
                 return json.load(r)
         except Exception as ex:
             if getattr(ex, "code", None) in (404, 422):
@@ -106,12 +106,17 @@ def main():
                 break
         print("hn", q, len(out), flush=True)
 
-    # Reddit via the arctic-shift archive (title search)
+    # Reddit via the arctic-shift archive (title search). The archive is often slow; give up after repeated failures.
+    fails = 0
     for q in TEXT_QUERIES:
+        if fails >= 3:
+            print("reddit archive not responding; skipped", flush=True)
+            break
         params = {"title": q, "limit": 100, "sort": "desc"}
         if a.since:
             params["after"] = a.since
-        d = get("https://arctic-shift.photon-reddit.com/api/posts/search?" + urllib.parse.urlencode(params))
+        d = get("https://arctic-shift.photon-reddit.com/api/posts/search?" + urllib.parse.urlencode(params), tries=2)
+        fails = fails + 1 if d is None else 0
         for p in (d or {}).get("data") or []:
             add("rd:" + p["id"], type="discussion", title=p.get("title") or "", url="https://www.reddit.com" + (p.get("permalink") or ""),
                 date=time.strftime("%Y-%m-%d", time.gmtime(p.get("created_utc") or 0)), authors=[p.get("author")], abstract=(p.get("selftext") or "")[:600],

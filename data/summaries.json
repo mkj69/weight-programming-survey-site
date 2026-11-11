@@ -4242,5 +4242,10 @@
 "x:2116492955720544283": "Reports an NES emulator embedded in Qwen3.5-4B that reportedly runs Super Mario Bros slowly, while requesting measurements of computation cost per frame.",
 "x:2115711912201576689": "Reports embedding a compiled computer and persistent filesystem inside Qwen, improving integer arithmetic, while warning that internal memory could conceal reasoning from monitoring.",
 "x:2111040959110922327": "Describes Cheng Lou’s Handwired compiler converting ordinary code into explicitly assigned neural network weights to run a desktop computer in a browser without training.",
-"x:2044103139758854223": "Introduces Sean Moran’s project constructing neural network weights analytically so the model directly executes a computation graph instead of learning from data."
+"x:2044103139758854223": "Introduces Sean Moran’s project constructing neural network weights analytically so the model directly executes a computation graph instead of learning from data.",
+"forced:https://x.com/_chenglou/status/2110557373651931267": "The post introduces Handwired, claiming it converts ordinary JavaScript code into a neural network without training while preserving exact outputs.",
+"forced:https://github.com/chenglou/handwired": "Provides the GitHub repository for chenglou's Handwired project.",
+"arxiv:2507.19457": "Introduces GEPA, which improves prompts by reflecting on execution attempts, testing revisions, and combining complementary lessons, claiming it can outperform reinforcement learning.",
+"arxiv:2310.03714": "Introduces DSPy, a programming model and compiler that optimize modular language model pipelines against a chosen metric instead of relying on manually written prompts.",
+"forced:https://github.com/stanfordnlp/dspy": "Provides the GitHub repository for Stanford NLP's DSPy project."
 }

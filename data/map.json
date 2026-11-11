@@ -606,6 +606,30 @@
 "id": "url:df74df40cd2a",
 "url": "https://opper.ai/blog/jevlar-weight-space-programming",
 "date": "2026-11-06"
+},
+{
+"key": "dspy2023",
+"year": 2023.8,
+"cat": "wsp",
+"short": "DSPy",
+"title": "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines",
+"who": "Khattab et al.",
+"note": "Programs built from declared LM modules, then compiled by optimizers that tune prompts, examples, or weights. The 'programming, not prompting' view that weight-space programming later extends to weights.",
+"id": "arxiv:2310.03714",
+"url": "https://arxiv.org/abs/2310.03714",
+"date": "2023-10-05"
+},
+{
+"key": "handwired2026",
+"year": 2026.79,
+"cat": "compile",
+"short": "Handwired",
+"title": "Handwired: turn your regular JavaScript code into a neural net",
+"who": "Cheng Lou",
+"note": "A compiler from ordinary JavaScript to network weights, with no training and outputs that match the program exactly; runs in the browser.",
+"id": "forced:https://github.com/chenglou/handwired",
+"url": "https://github.com/chenglou/handwired",
+"date": "2026-10-15"
 }
 ],
 "edges": [
@@ -758,6 +782,10 @@
 "sparks2026"
 ],
 [
+"dspy2023",
+"sparks2026"
+],
+[
 "sparks2026",
 "hedwig2026"
 ],
@@ -788,6 +816,10 @@
 [
 "sparks2026",
 "jevlar2026"
+],
+[
+"tracr2023",
+"handwired2026"
 ]
 ]
 }

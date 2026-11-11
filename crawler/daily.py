@@ -19,6 +19,10 @@ def run(*args):
 
 
 def main():
+    sp = os.path.join(ROOT, "data", "settings.json")
+    if os.path.exists(sp) and json.load(open(sp)).get("daily_updates") == "off":
+        print("Daily updates are paused (data/settings.json). Nothing to do.")
+        return
     os.makedirs(WORK, exist_ok=True)
     for f in os.listdir(WORK):
         if f.endswith(".jsonl"):

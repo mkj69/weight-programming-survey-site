@@ -124,5 +124,69 @@
   "tags": [
    "editing weights"
   ]
+ },
+ {
+  "arxiv": "2310.03714",
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "precursor"
+  ]
+ },
+ {
+  "arxiv": "2507.19457",
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "precursor"
+  ]
+ },
+ {
+  "url": "https://github.com/stanfordnlp/dspy",
+  "title": "stanfordnlp/dspy",
+  "type": "code",
+  "date": "2023-01",
+  "authors": [
+   "stanfordnlp"
+  ],
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "precursor"
+  ]
+ },
+ {
+  "url": "https://x.com/_chenglou/status/2110557373651931267",
+  "title": "@_chenglou: Introducing Handwired: turn your regular JavaScript code into a neural net, with no training and exact outputs",
+  "type": "post",
+  "date": "2026-10-15",
+  "authors": [
+   "@_chenglou"
+  ],
+  "cats": [
+   "compile"
+  ],
+  "tags": [
+   "compiler",
+   "computer in weights"
+  ]
+ },
+ {
+  "url": "https://github.com/chenglou/handwired",
+  "title": "chenglou/handwired",
+  "type": "code",
+  "date": "2026-10-15",
+  "authors": [
+   "chenglou"
+  ],
+  "cats": [
+   "compile"
+  ],
+  "tags": [
+   "compiler"
+  ]
  }
 ]

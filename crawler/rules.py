@@ -54,7 +54,7 @@ TAGS = {
     "predicting from weights": r"predict",
 }
 TAG_CAT = {
-    "wsp": ["reading weights", "editing weights", "hand-written weights", "replication", "critique", "application", "agent in the loop", "benchmark"],
+    "wsp": ["reading weights", "editing weights", "hand-written weights", "replication", "critique", "application", "agent in the loop", "benchmark", "precursor"],
     "compile": ["RASP / Tracr", "compiler", "circuit injection", "computer in weights", "provably correct"],
     "edit": ["knowledge editing", "locate and edit", "task vectors", "model merging", "model diffing", "unlearning", "sequential editing"],
     "fast": ["fast weights", "linear attention", "self-referential", "hypernetworks", "test-time training", "meta-learning"],
