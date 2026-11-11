@@ -10,16 +10,17 @@
 <body>
 <header class="top">
   <a class="brand" href="./">Weight Space Reader</a>
+  <nav class="nav"><a href="./" class="on">Library</a><a href="map.html">Map</a></nav>
   <form class="add" id="addForm" autocomplete="off">
     <input id="addUrl" type="url" placeholder="Paste a link to add it" aria-label="Link to add">
     <button type="submit">Add</button>
   </form>
-  <button class="icon" id="theme" type="button" aria-label="Toggle dark mode">◐</button>
+  <button class="icon" id="theme" type="button" aria-label="Toggle dark mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
 </header>
 <div class="app" id="app">
   <aside class="side">
     <div class="filters">
-      <input id="q" type="search" placeholder="Search titles and authors" aria-label="Search">
+      <input id="q" type="search" placeholder="Search titles, authors, summaries" aria-label="Search">
       <div class="row">
         <select id="cat" aria-label="Category"><option value="">All categories</option></select>
         <select id="type" aria-label="Type"><option value="">All types</option></select>
@@ -32,7 +33,12 @@
           <option value="cited">Most cited</option>
         </select>
       </div>
-      <label class="check"><input type="checkbox" id="starred"> Starred only</label>
+      <div class="row checks">
+        <label class="check"><input type="checkbox" id="classic"> Classics</label>
+        <label class="check"><input type="checkbox" id="starred"> Starred</label>
+        <label class="check" title="Posts that react to another item are grouped under it"><input type="checkbox" id="showrx"> Reactions</label>
+        <label class="check" title="Needs a browser extension that lifts embedding limits"><input type="checkbox" id="force"> Embed all sites</label>
+      </div>
       <div class="count" id="count"></div>
     </div>
     <ol class="list" id="list"></ol>
@@ -50,11 +56,13 @@
         <div class="meta">
           <h2 id="docTitle"></h2>
           <p id="docSub"></p>
+          <p class="sum" id="docSum"></p>
           <p class="chips" id="docTags"></p>
         </div>
-        <div class="actions"><a class="open" id="docOpen" target="_blank" rel="noopener">Open original ↗</a><a class="open subtle" id="docEdit" target="_blank" rel="noopener">Star or tag</a></div>
+        <div class="actions"><a class="open" id="docOpen" target="_blank" rel="noopener">Open original ↗</a><a class="open subtle" id="docHn" href="#" hidden>HN discussion</a><a class="open subtle" id="docEdit" target="_blank" rel="noopener">Star or tag</a></div>
       </div>
       <div class="frame" id="frame"></div>
+      <section class="reactions" id="reactions" hidden></section>
       <section class="comments">
         <h3>Comments</h3>
         <div id="giscus"></div>

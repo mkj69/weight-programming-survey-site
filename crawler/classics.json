@@ -1,0 +1,585 @@
+[
+ {
+  "key": "fwp1992",
+  "year": 1992,
+  "cat": "fast",
+  "title": "Learning to Control Fast-Weight Memories: An Alternative to Dynamic Recurrent Networks",
+  "who": "Schmidhuber",
+  "note": "A slow network learns to write the weights of a fast network on the fly, using outer products of keys and values. The first fast weight programmer.",
+  "short": "Fast weight programmers"
+ },
+ {
+  "key": "srwm1993",
+  "year": 1993,
+  "cat": "fast",
+  "title": "A 'Self-Referential' Weight Matrix",
+  "who": "Schmidhuber",
+  "url": "https://people.idsia.ch/~juergen/selfref1993.pdf",
+  "note": "A recurrent network with special units that address, read and change its own weights, so it could in principle learn its own learning algorithm.",
+  "from": [
+   "fwp1992"
+  ],
+  "short": "Self-referential weight matrix"
+ },
+ {
+  "key": "ba2016",
+  "year": 2016,
+  "cat": "fast",
+  "title": "Using Fast Weights to Attend to the Recent Past",
+  "who": "Ba, Hinton, Mnih, Leibo, Ionescu",
+  "note": "Brings fast weights back to modern deep learning as a short-term memory for recurrent networks.",
+  "from": [
+   "fwp1992"
+  ],
+  "short": "Fast weights revisited"
+ },
+ {
+  "key": "hyper2016",
+  "year": 2016,
+  "cat": "fast",
+  "title": "HyperNetworks",
+  "who": "Ha, Dai, Le",
+  "note": "One network generates the weights of another. A common building block for later work that generates or adapts weights.",
+  "short": "HyperNetworks"
+ },
+ {
+  "key": "lintrans2020",
+  "year": 2020,
+  "cat": "fast",
+  "title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+  "who": "Katharopoulos, Vyas, Pappas, Fleuret",
+  "note": "Linear attention turns a transformer into a recurrent model whose state is a sum of key-value outer products.",
+  "short": "Linear attention"
+ },
+ {
+  "key": "schlag2021",
+  "year": 2021,
+  "cat": "fast",
+  "title": "Linear Transformers Are Secretly Fast Weight Programmers",
+  "who": "Schlag, Irie, Schmidhuber",
+  "note": "Shows that linear attention is a fast weight programmer and replaces the additive update with the delta rule.",
+  "from": [
+   "fwp1992",
+   "lintrans2020"
+  ],
+  "short": "Linear transformers = FWPs"
+ },
+ {
+  "key": "srwm2022",
+  "year": 2022,
+  "cat": "fast",
+  "title": "A Modern Self-Referential Weight Matrix That Learns to Modify Itself",
+  "who": "Irie, Schlag, Csordás, Schmidhuber",
+  "note": "A scalable self-referential weight matrix that generates its own keys, queries and learning rates and rewrites itself with the delta rule.",
+  "from": [
+   "srwm1993",
+   "schlag2021"
+  ],
+  "short": "Modern SRWM"
+ },
+ {
+  "key": "ttt2024",
+  "year": 2024,
+  "cat": "fast",
+  "title": "Learning to (Learn at Test Time): RNNs with Expressive Hidden States",
+  "who": "Sun et al.",
+  "note": "Makes the hidden state a small model trained by gradient steps while the sequence is read.",
+  "from": [
+   "schlag2021"
+  ],
+  "short": "Test-time training layers"
+ },
+ {
+  "key": "gdn2024",
+  "year": 2024,
+  "cat": "fast",
+  "title": "Gated Delta Networks: Improving Mamba2 with Delta Rule",
+  "who": "Yang, Kautz, Hatamizadeh",
+  "note": "Adds gating to delta-rule linear attention. Its state is the memory that later computers-in-weights reuse as exact RAM.",
+  "from": [
+   "schlag2021"
+  ],
+  "short": "Gated DeltaNet"
+ },
+ {
+  "key": "titans2025",
+  "year": 2025,
+  "cat": "fast",
+  "title": "Titans: Learning to Memorize at Test Time",
+  "who": "Behrouz, Zhong, Mirrokni",
+  "note": "A neural long-term memory whose weights are updated during inference.",
+  "from": [
+   "ttt2024"
+  ],
+  "short": "Titans"
+ },
+ {
+  "key": "perez2019",
+  "year": 2019,
+  "cat": "compile",
+  "title": "On the Turing Completeness of Modern Neural Network Architectures",
+  "who": "Pérez, Marinković, Barceló",
+  "note": "Proves by construction that transformers with hand-set weights can simulate any Turing machine, given enough precision.",
+  "short": "Turing-complete transformers"
+ },
+ {
+  "key": "rasp2021",
+  "year": 2021,
+  "cat": "compile",
+  "title": "Thinking Like Transformers",
+  "who": "Weiss, Goldberg, Yahav",
+  "note": "RASP, a small programming language whose programs map onto attention and MLP layers.",
+  "from": [
+   "perez2019"
+  ],
+  "short": "RASP"
+ },
+ {
+  "key": "tracr2023",
+  "year": 2023,
+  "cat": "compile",
+  "title": "Tracr: Compiled Transformers as a Laboratory for Interpretability",
+  "who": "Lindner et al.",
+  "note": "A compiler that turns RASP programs into real transformer weights, giving models whose circuits are known exactly.",
+  "from": [
+   "rasp2021"
+  ],
+  "short": "Tracr"
+ },
+ {
+  "key": "looped2023",
+  "year": 2023,
+  "cat": "compile",
+  "title": "Looped Transformers as Programmable Computers",
+  "who": "Giannou et al.",
+  "note": "Builds a looped transformer that executes programs given in its input, acting as a general-purpose computer.",
+  "from": [
+   "perez2019"
+  ],
+  "short": "Looped transformers"
+ },
+ {
+  "key": "ltp2023",
+  "year": 2023,
+  "cat": "compile",
+  "title": "Learning Transformer Programs",
+  "who": "Friedman, Wettig, Chen",
+  "note": "Trains transformers constrained so that they can be turned back into readable programs.",
+  "from": [
+   "rasp2021"
+  ],
+  "short": "Learning transformer programs"
+ },
+ {
+  "key": "alta2024",
+  "year": 2024,
+  "cat": "compile",
+  "title": "ALTA: Compiler-Based Analysis of Transformers",
+  "who": "Shaw et al.",
+  "note": "A language and compiler with loops, used to ask which algorithms transformers can represent and learn.",
+  "from": [
+   "tracr2023"
+  ],
+  "short": "ALTA"
+ },
+ {
+  "key": "percepta2026",
+  "year": 2026.2,
+  "cat": "compile",
+  "title": "Can LLMs Be Computers?",
+  "who": "Percepta",
+  "url": "https://www.percepta.ai/blog/can-llms-be-computers",
+  "note": "Compiles an interpreter into standard transformer weights analytically, so programs run inside the model at high speed.",
+  "from": [
+   "looped2023"
+  ],
+  "short": "Percepta"
+ },
+ {
+  "key": "torchwright2026",
+  "year": 2026.55,
+  "cat": "compile",
+  "title": "torchwright: compiling computation graphs into transformer weights",
+  "who": "physicsrob",
+  "url": "https://ood.dev/posts/torchwright-intro/",
+  "note": "A compiler from PyTorch-style graphs to vanilla transformer weights; later used to compile a Doom renderer.",
+  "from": [
+   "tracr2023"
+  ],
+  "short": "torchwright"
+ },
+ {
+  "key": "qwenputer2026",
+  "year": 2026.8,
+  "cat": "compile",
+  "title": "Qwenputer: a deterministic RISC-V CPU inside Qwen3.5",
+  "who": "Divyansh Agrawal",
+  "url": "https://divagr.com/blog/qwenputer",
+  "note": "Compiles a full CPU into extra layers of a production model and uses its Gated DeltaNet state as RAM. Set off a wave of GPUs, filesystems and consoles in weights.",
+  "from": [
+   "percepta2026",
+   "gdn2024"
+  ],
+  "short": "Qwenputer"
+ },
+ {
+  "key": "bau2020",
+  "year": 2020,
+  "cat": "edit",
+  "title": "Rewriting a Deep Generative Model",
+  "who": "Bau et al.",
+  "note": "Edits one layer of a GAN as a linear associative memory with a rank-one update, changing a rule the model learned.",
+  "from": [],
+  "short": "Rewriting a GAN"
+ },
+ {
+  "key": "kneurons2021",
+  "year": 2021,
+  "cat": "edit",
+  "title": "Knowledge Neurons in Pretrained Transformers",
+  "who": "Dai et al.",
+  "note": "Finds MLP neurons tied to specific facts and edits facts by changing them.",
+  "short": "Knowledge neurons"
+ },
+ {
+  "key": "ke2021",
+  "year": 2021,
+  "cat": "edit",
+  "title": "Editing Factual Knowledge in Language Models",
+  "who": "De Cao, Aziz, Titov",
+  "note": "Trains a hypernetwork that predicts weight updates to change single facts.",
+  "from": [
+   "hyper2016"
+  ],
+  "short": "KnowledgeEditor"
+ },
+ {
+  "key": "mend2021",
+  "year": 2021,
+  "cat": "edit",
+  "title": "Fast Model Editing at Scale",
+  "who": "Mitchell et al.",
+  "note": "MEND: small networks turn a fine-tuning gradient into a targeted low-rank edit for large models.",
+  "from": [
+   "ke2021"
+  ],
+  "short": "MEND"
+ },
+ {
+  "key": "rome2022",
+  "year": 2022,
+  "cat": "edit",
+  "title": "Locating and Editing Factual Associations in GPT",
+  "who": "Meng, Bau, Andonian, Belinkov",
+  "note": "ROME: causal tracing locates facts in mid-layer MLPs, then a closed-form rank-one edit rewrites one fact.",
+  "from": [
+   "bau2020",
+   "kneurons2021"
+  ],
+  "short": "ROME"
+ },
+ {
+  "key": "memit2022",
+  "year": 2022,
+  "cat": "edit",
+  "title": "Mass-Editing Memory in a Transformer",
+  "who": "Meng et al.",
+  "note": "MEMIT scales ROME to thousands of facts edited at once across several layers.",
+  "from": [
+   "rome2022"
+  ],
+  "short": "MEMIT"
+ },
+ {
+  "key": "soups2022",
+  "year": 2022,
+  "cat": "edit",
+  "title": "Model soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time",
+  "who": "Wortsman et al.",
+  "note": "Averaging the weights of fine-tuned models from one start point often beats picking the best one.",
+  "short": "Model soups"
+ },
+ {
+  "key": "rebasin2022",
+  "year": 2022,
+  "cat": "edit",
+  "title": "Git Re-Basin: Merging Models modulo Permutation Symmetries",
+  "who": "Ainsworth, Hayase, Srinivasa",
+  "note": "Aligns neurons across independently trained networks so their weights can be merged.",
+  "short": "Git Re-Basin"
+ },
+ {
+  "key": "taskarith2022",
+  "year": 2022,
+  "cat": "edit",
+  "title": "Editing Models with Task Arithmetic",
+  "who": "Ilharco et al.",
+  "note": "A task vector is fine-tuned weights minus base weights; adding, negating and combining them edits behaviour.",
+  "from": [
+   "soups2022"
+  ],
+  "short": "Task arithmetic"
+ },
+ {
+  "key": "hase2023",
+  "year": 2023,
+  "cat": "edit",
+  "title": "Does Localization Inform Editing? Surprising Differences in Causality-Based Localization vs. Knowledge Editing in Language Models",
+  "who": "Hase, Bansal, Kim, Ghandeharioun",
+  "note": "Finds that where causal tracing locates a fact barely predicts which layer is best to edit.",
+  "from": [
+   "rome2022"
+  ],
+  "short": "Localization vs editing"
+ },
+ {
+  "key": "ties2023",
+  "year": 2023,
+  "cat": "edit",
+  "title": "TIES-Merging: Resolving Interference When Merging Models",
+  "who": "Yadav et al.",
+  "note": "Trims small changes and resolves sign conflicts before merging task vectors.",
+  "from": [
+   "taskarith2022"
+  ],
+  "short": "TIES-Merging"
+ },
+ {
+  "key": "alphaedit2024",
+  "year": 2024,
+  "cat": "edit",
+  "title": "AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models",
+  "who": "Fang et al.",
+  "note": "Projects edits into the null space of preserved knowledge so new edits disturb less.",
+  "from": [
+   "memit2022"
+  ],
+  "short": "AlphaEdit"
+ },
+ {
+  "key": "unterthiner2020",
+  "year": 2020,
+  "cat": "wsl",
+  "title": "Predicting Neural Network Accuracy from Weights",
+  "who": "Unterthiner et al.",
+  "note": "Simple statistics of trained weights predict a network's test accuracy, treating weights as data.",
+  "short": "Accuracy from weights"
+ },
+ {
+  "key": "hyperrep2021",
+  "year": 2021,
+  "cat": "wsl",
+  "title": "Hyper-Representations: Self-Supervised Representation Learning on Neural Network Weights for Model Characteristic Prediction",
+  "who": "Schürholt, Kostadinov, Borth",
+  "note": "Learns embeddings of whole networks from their weights.",
+  "from": [
+   "unterthiner2020"
+  ],
+  "short": "Hyper-representations"
+ },
+ {
+  "key": "gpt2022",
+  "year": 2022,
+  "cat": "wsl",
+  "title": "Learning to Learn with Generative Models of Neural Network Checkpoints",
+  "who": "Peebles et al.",
+  "note": "A diffusion model over checkpoints that outputs parameters reaching a requested loss in one step.",
+  "from": [
+   "hyper2016"
+  ],
+  "short": "G.pt"
+ },
+ {
+  "key": "zoos2022",
+  "year": 2022,
+  "cat": "wsl",
+  "title": "Model Zoos: A Dataset of Diverse Populations of Neural Network Models",
+  "who": "Schürholt et al.",
+  "note": "Large populations of trained networks released as data for weight-space research.",
+  "from": [
+   "hyperrep2021"
+  ],
+  "short": "Model zoos"
+ },
+ {
+  "key": "dws2023",
+  "year": 2023,
+  "cat": "wsl",
+  "title": "Equivariant Architectures for Learning in Deep Weight Spaces",
+  "who": "Navon et al.",
+  "note": "Networks that take weights as input and respect the permutation symmetries of neurons.",
+  "short": "DWSNets"
+ },
+ {
+  "key": "nfn2023",
+  "year": 2023,
+  "cat": "wsl",
+  "title": "Permutation Equivariant Neural Functionals",
+  "who": "Zhou et al.",
+  "note": "Neural functionals: layers built to process other networks' weights under neuron permutations.",
+  "short": "Neural functionals"
+ },
+ {
+  "key": "pdiff2024",
+  "year": 2024,
+  "cat": "wsl",
+  "title": "Neural Network Diffusion",
+  "who": "Wang et al.",
+  "note": "Generates working network parameters with a latent diffusion model.",
+  "from": [
+   "gpt2022"
+  ],
+  "short": "Neural network diffusion"
+ },
+ {
+  "key": "gmn2024",
+  "year": 2024,
+  "cat": "wsl",
+  "title": "Graph Metanetworks for Processing Diverse Neural Architectures",
+  "who": "Lim et al.",
+  "note": "Represents any network as a graph so one metanetwork can read many architectures.",
+  "from": [
+   "dws2023",
+   "nfn2023"
+  ],
+  "short": "Graph metanetworks"
+ },
+ {
+  "key": "sane2024",
+  "year": 2024,
+  "cat": "wsl",
+  "title": "Towards Scalable and Versatile Weight Space Learning",
+  "who": "Schürholt, Mahoney, Borth",
+  "note": "SANE learns representations of large networks piece by piece and can sample new models.",
+  "from": [
+   "zoos2022"
+  ],
+  "short": "SANE"
+ },
+ {
+  "key": "reactive2026",
+  "year": 2026.8,
+  "cat": "wsp",
+  "title": "Reactive optimizers",
+  "who": "Xingjian Bai et al.",
+  "url": "https://xingjianbai.com/reactive-optimizers/",
+  "note": "An agent watches training and rewrites the optimizer's code as training runs.",
+  "from": [],
+  "short": "Reactive optimizers"
+ },
+ {
+  "key": "sparks2026",
+  "year": 2026.84,
+  "cat": "wsp",
+  "title": "Sparks of Weight-Space Programming",
+  "who": "Takehi, Teoh, Zhang, Khattab",
+  "url": "https://rikiyat.github.io/blog/weight-space-programming/",
+  "note": "A frontier LLM reads small networks' weights, writes game-playing networks, and edits 0.016% of Qwen3.5-0.8B to stop reasoning loops.",
+  "from": [
+   "rome2022",
+   "taskarith2022",
+   "tracr2023"
+  ],
+  "short": "Sparks of WSP"
+ },
+ {
+  "key": "hedwig2026",
+  "year": 2026.845,
+  "cat": "wsp",
+  "title": "Does a weight edit teach Qwen3.5-0.8B math, or stop it looping?",
+  "who": "Hedwig AI",
+  "url": "https://www.hedwigai.com/blog/weight-edit-math-or-loops",
+  "note": "Measures the released edit: one direction removed in two layers, tied to repetition. With thinking off the gain is 1.6 points.",
+  "from": [
+   "sparks2026"
+  ],
+  "short": "Edit re-analysis"
+ },
+ {
+  "key": "memo2026",
+  "year": 2026.85,
+  "cat": "wsp",
+  "title": "Can an LLM Actually Reason and Program about Neural Network's Weights or is it just memorization on steroids? Exploring \"Weight-Space Programming\"",
+  "who": "Ahmed",
+  "note": "Weight reading looks like local arithmetic at the network's edges plus memorised dataset priors.",
+  "from": [
+   "sparks2026"
+  ],
+  "short": "Reasoning or memory?"
+ },
+ {
+  "key": "multmin2026",
+  "year": 2026.85,
+  "cat": "wsp",
+  "title": "4-digit multiplication in 355 nonzero weights with 0 training",
+  "who": "Deepak Singh",
+  "url": "https://deepaksingh98.github.io/projects/mult-min-net/",
+  "note": "An LLM writes every weight of tiny transformers that multiply 4-digit numbers exactly.",
+  "from": [
+   "sparks2026"
+  ],
+  "short": "mult-min-net"
+ },
+ {
+  "key": "explore2026",
+  "year": 2026.855,
+  "cat": "wsp",
+  "title": "Exploring Weight-Space Programming: Capabilities, Generalization, and Limitations",
+  "who": "Hu et al.",
+  "note": "16 editing runs on 0.8B and 9B models: large local gains, uneven transfer, and many runs that keep the original weights.",
+  "from": [
+   "sparks2026"
+  ],
+  "short": "Exploring WSP"
+ },
+ {
+  "key": "robots2026",
+  "year": 2026.855,
+  "cat": "wsp",
+  "title": "Can LLMs Debug Robots by Editing Their Weights?",
+  "who": "Zhang, Wang, Lin",
+  "note": "Editing 65 embedding rows repairs instruction grounding in a robot policy; the editor rejects most other candidates.",
+  "from": [
+   "sparks2026"
+  ],
+  "short": "Robot repair"
+ },
+ {
+  "key": "games2026",
+  "year": 2026.855,
+  "cat": "wsp",
+  "title": "Zero-Shot Weight-Space Programming Across a Difficulty-Graded Ladder of Two-Player Games",
+  "who": "Garrido-Merchán",
+  "note": "Hand-written networks are provably correct on simple games but collapse where multi-move planning is needed.",
+  "from": [
+   "sparks2026"
+  ],
+  "short": "Game ladder"
+ },
+ {
+  "key": "wpb2026",
+  "year": 2026.86,
+  "cat": "wsp",
+  "title": "WeightProgramBench",
+  "who": "Kale, Chan (Trajectory Labs)",
+  "url": "https://x.com/neilkale/status/2118897078550307050",
+  "note": "Reinforcement learning teaches open models to write game-playing networks, beating Opus on one overfit task.",
+  "from": [
+   "sparks2026"
+  ],
+  "short": "WeightProgramBench"
+ },
+ {
+  "key": "jevlar2026",
+  "year": 2026.865,
+  "cat": "wsp",
+  "title": "Weight-space programming: editing Qwen3.5 into a top Pac-Man decision model",
+  "who": "Lundell (Opper)",
+  "url": "https://opper.ai/blog/jevlar-weight-space-programming",
+  "note": "Two coding agents edit Qwen3.5 into a Pac-Man decision model by writing a mid-layer probe back into the weights.",
+  "from": [
+   "sparks2026"
+  ],
+  "short": "Jevlar"
+ }
+]

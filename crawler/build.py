@@ -17,6 +17,18 @@ NO_FRAME = {"github.com", "huggingface.co", "x.com", "twitter.com", "www.reddit.
             "openreview.net", "dl.acm.org", "ieeexplore.ieee.org", "www.sciencedirect.com", "link.springer.com", "www.nature.com", "medium.com"}
 
 
+def canon(u):
+    """Canonical URL: one item per GitHub repo, no tracking query, fragment or trailing slash."""
+    u = (u or "").strip()
+    m = re.match(r"https?://github\.com/([^/#?]+/[^/#?]+)", u)
+    if m:
+        return "https://github.com/" + m.group(1).removesuffix(".git")
+    u = re.sub(r"#.*$", "", u)
+    u = re.sub(r"[?&](utm_[^=&]+|ref|s|a)=[^&]*", "", u).rstrip("?&")
+    u = re.sub(r"/index\.html?$", "/", u)
+    return u.rstrip("/")
+
+
 def norm_title(t):
     return re.sub(r"[^a-z0-9]+", "", (t or "").lower())[:120]
 
@@ -34,7 +46,7 @@ def item_id(r):
         m = re.search(r"news\.ycombinator\.com/item\?id=(\d+)", u)
         if m:
             return "hn:" + m.group(1)
-        m = re.match(r"https://github\.com/([^/]+/[^/#?]+)/?$", u)
+        m = re.match(r"https://github\.com/([^/]+/[^/#?]+)", u)
         if m:
             return "gh:" + m.group(1).lower()
         return "url:" + hashlib.sha1(u.encode()).hexdigest()[:12]
@@ -44,7 +56,7 @@ def item_id(r):
 _frame_cache = {}
 
 
-ALWAYS_FRAME = {"news.ycombinator.com"}
+ALWAYS_FRAME = set()
 
 
 def frameable(url, cache):
@@ -86,6 +98,9 @@ def view(r, cache):
     m = re.match(r"https://huggingface\.co/((?:datasets/|spaces/)?[^/]+/[^/#?]+)", u)
     if m:
         return "hf", m.group(1)
+    m = re.search(r"news\.ycombinator\.com/item\?id=(\d+)", u)
+    if m:
+        return "hn", m.group(1)
     m = re.match(r"https://(?:www\.)?reddit\.com(/r/[^/]+/comments/[^/]+)", u)
     if m:
         return "reddit", f"https://www.redditmedia.com{m.group(1)}/?ref_source=embed&embed=true"
@@ -120,17 +135,34 @@ def main():
     items_p = os.path.join(DATA, "items.json")
     old = {} if a.fresh or not os.path.exists(items_p) else {i["id"]: i for i in json.load(open(items_p))["items"]}
     seen_title = {norm_title(i["t"]): i["id"] for i in old.values() if i["y"] == "paper"}
-    seen_url = {i["u"].rstrip("/"): i["id"] for i in old.values()}
+    seen_url = {canon(i["u"]): i["id"] for i in old.values()}
     items = dict(old)
     recs = [json.loads(l) for l in open(a.inp)] if os.path.exists(a.inp) else []
+    # Dates of HN/Reddit posts that link to a page, used when the page itself has no date.
+    link_date = {}
+    for r in recs:
+        if r.get("link") and r.get("date"):
+            link_date.setdefault(canon(r["link"]), r["date"])
     # surveys and rule matches first, so their categories win over duplicates
     recs.sort(key=lambda r: {"survey": 0, "rule": 1, "llm": 2}.get(r.get("how"), 3))
     for r in recs:
         if not r.get("url") or not r.get("title") or CJK.search(r["title"]):
             continue
+        r = dict(r, url=canon(r["url"]))
+        if r["url"].startswith("https://github.com/"):
+            r["title"] = r["url"].split("github.com/", 1)[1]
+            r["type"] = "code"
+        # Dates: OpenAlex gives YYYY-01-01 when only the year is known; arXiv ids carry the month.
+        dt = (r.get("date") or "")[:10]
+        aid = r.get("arxiv") or ""
+        if (not dt or dt.endswith("-01-01")) and re.match(r"\d{4}\.\d{4,5}$", aid):
+            dt = f"20{aid[:2]}-{aid[2:4]}"
+        elif dt.endswith("-01-01"):
+            dt = link_date.get(r["url"]) or dt[:4]
+        r["date"] = dt
         iid = item_id(r)
         nt = norm_title(r["title"]) if r["type"] == "paper" else None
-        dup = items.get(iid) or (items.get(seen_title.get(nt)) if nt else None) or items.get(seen_url.get(r["url"].rstrip("/")))
+        dup = items.get(iid) or (items.get(seen_title.get(nt)) if nt else None) or items.get(seen_url.get(r["url"]))
         if dup:
             dup["c"] = sorted(set(dup["c"]) | set(r["cats"]))
             dup["g"] = sorted(set(dup["g"]) | set(r["tags"]))
@@ -147,7 +179,18 @@ def main():
         items[iid] = rec
         if nt:
             seen_title[nt] = iid
-        seen_url[r["url"].rstrip("/")] = iid
+        seen_url[r["url"]] = iid
+    by_t = {}
+    for i in items.values():
+        if i["y"] != "discussion":
+            by_t.setdefault(norm_title(i["t"]), i)
+    by_u = {i["u"]: i for i in items.values() if i["y"] != "discussion"}
+    for iid in [k for k, i in items.items() if i["y"] == "discussion" and i["k"] == "hn"]:
+        i = items[iid]
+        host = by_t.get(norm_title(i["t"]))
+        if host is not None:
+            host["hn"] = i["e"]
+            del items[iid]
     ov_p = os.path.join(DATA, "overrides.json")
     ov = json.load(open(ov_p)) if os.path.exists(ov_p) else {}
     for iid, o in ov.items():
@@ -164,6 +207,78 @@ def main():
                 it["c"] = sorted(set(o["cats"]))
             if o.get("title"):
                 it["t"] = o["title"]
+            if o.get("date"):
+                it["d"] = o["date"]
+    # Classic works: mark them (adding any that the crawl missed) and write data/map.json.
+    classics = json.load(open(os.path.join(HERE, "classics.json")))
+    by_title = {norm_title(i["t"]): i for i in items.values() if i["y"] != "discussion"}
+    by_url = {i["u"].rstrip("/"): i for i in items.values()}
+    pool = {}
+    for name in ("oa_candidates.jsonl", "arxiv_candidates.jsonl"):
+        pth = os.path.join(WORK, name)
+        if os.path.exists(pth):
+            for line in open(pth):
+                r = json.loads(line)
+                pool.setdefault(norm_title(r["title"]), r)
+    nodes = []
+    for c in classics:
+        it = (by_url.get(c.get("url", "").rstrip("/")) if c.get("url") else None) or by_title.get(norm_title(c["title"]))
+        if it is not None and it["y"] == "discussion":
+            it = None
+        cand = pool.get(norm_title(c["title"]))
+        if it is None and cand and not c.get("url"):
+            r = dict(cand, type="paper", cats=[c["cat"]], tags=[], key=f"arxiv:{cand['arxiv']}" if cand.get("arxiv") else f"oa:{cand['oa']}")
+            r["url"] = f"https://arxiv.org/abs/{cand['arxiv']}" if cand.get("arxiv") else (cand.get("url") or cand.get("doi"))
+            if r["url"]:
+                k, e = view(r, cache)
+                it = dict(id=r["key"], t=cand["title"], u=r["url"], k=k, y="paper", c=[c["cat"]], g=[], d=(cand.get("date") or "")[:10],
+                          a=", ".join(clean_authors(cand.get("authors"))[:8]), v=cand.get("venue") or "", n=cand.get("cites") or 0, s=False,
+                          added=datetime.date.today().isoformat())
+                if e:
+                    it["e"] = e
+                items[it["id"]] = it
+        if it is None:
+            u = c.get("url") or f"https://scholar.google.com/scholar?q={urllib.parse.quote(c['title'])}"
+            iid = "classic:" + c["key"]
+            k, e = view(dict(url=u, type="blog" if c.get("url") and "pdf" not in u else "paper"), cache)
+            it = dict(id=iid, t=c["title"], u=u, k=k, y="paper" if c["year"] < 2026 else "blog", c=[c["cat"]], g=[], d=str(int(c["year"])), a=c["who"], v="", n=0, s=False,
+                      added=datetime.date.today().isoformat())
+            if e:
+                it["e"] = e
+            items[iid] = it
+        it["cl"] = True
+        if c["cat"] not in it["c"]:
+            it["c"] = sorted(set(it["c"] + [c["cat"]]))
+        nodes.append(dict(key=c["key"], year=c["year"], cat=c["cat"], short=c["short"], title=c["title"], who=c["who"], note=c["note"], id=it["id"], url=it["u"], date=it["d"]))
+    json.dump(dict(categories=tax["categories"], nodes=nodes, edges=[[f, c["key"]] for c in classics for f in c.get("from", [])]),
+              open(os.path.join(DATA, "map.json"), "w"), ensure_ascii=False, indent=0)
+    # Group X posts under the post or work they react to (see reactions.py).
+    rx_p = os.path.join(DATA, "reactions.json")
+    rx = json.load(open(rx_p)) if os.path.exists(rx_p) else {}
+    for i in items.values():
+        i.pop("rof", None); i.pop("rx", None)
+    def root(h, seen=()):
+        r = rx.get(h, {}).get("host")
+        return h if not r or r in seen or r not in items else root(r, seen + (h,))
+    for iid, r in rx.items():
+        if iid in items and r.get("host") in items:
+            host = root(r["host"])
+            if host == iid:
+                continue
+            items[iid]["rof"] = host
+            items[iid]["dp"] = r.get("depth", "reaction")
+            items[host].setdefault("rx", []).append(iid)
+    for i in items.values():
+        if "rx" in i:
+            i["rx"].sort(key=lambda j: (items[j].get("dp") != "analysis", items[j]["d"]))
+    sm_p = os.path.join(DATA, "summaries.json")
+    sums = json.load(open(sm_p)) if os.path.exists(sm_p) else {}
+    for i in items.values():
+        if sums.get(i["id"]):
+            i["sm"] = sums[i["id"]]
+        elif i.get("x") and "sm" not in i:
+            first = re.split(r"(?<=[.!?])\s", i["x"], maxsplit=1)[0]
+            i["sm"] = first[:220]
     out = dict(updated=datetime.date.today().isoformat(), categories=tax["categories"], tags=tax["tags"], types=tax["types"],
                items=sorted(items.values(), key=lambda i: i["d"] or "", reverse=True))
     json.dump(out, open(items_p, "w"), ensure_ascii=False, separators=(",", ":"))
