@@ -1,0 +1,128 @@
+[
+ {
+  "arxiv": "2610.33826",
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "agent in the loop"
+  ]
+ },
+ {
+  "arxiv": "2610.32026",
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "agent in the loop"
+  ]
+ },
+ {
+  "arxiv": "2610.18572",
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "agent in the loop"
+  ]
+ },
+ {
+  "arxiv": "2602.05848",
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "agent in the loop"
+  ]
+ },
+ {
+  "url": "https://xingjianbai.com/reactive-optimizers/",
+  "title": "Reactive Optimizers: an agent that rewrites the optimizer while the network trains",
+  "type": "blog",
+  "date": "2026-10-21",
+  "authors": [
+   "Xingjian Bai"
+  ],
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "agent in the loop"
+  ]
+ },
+ {
+  "url": "https://github.com/xingjian-bai/opal",
+  "title": "xingjian-bai/opal",
+  "type": "code",
+  "date": "2026-10-21",
+  "authors": [
+   "xingjian-bai"
+  ],
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "agent in the loop"
+  ]
+ },
+ {
+  "url": "https://doubleai.s.gy/llm-redesign",
+  "title": "Architecture is the last hand-designed piece: an agent that redesigns the network during training",
+  "type": "blog",
+  "date": "2026-11-06",
+  "authors": [
+   "doubleAI"
+  ],
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "agent in the loop"
+  ]
+ },
+ {
+  "url": "https://x.com/SimulatedAnneal/status/2112936831398375800",
+  "title": "@SimulatedAnneal: What if the optimizer could think and react while the network trains? (Reactive optimizers)",
+  "type": "post",
+  "date": "2026-10-21",
+  "authors": [
+   "@SimulatedAnneal"
+  ],
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "agent in the loop"
+  ]
+ },
+ {
+  "url": "https://arxiv.org/abs/2611.11537",
+  "title": "Weight-Space Programming of Variational Quantum Circuits: Large Language Models Write Quantum Circuit Parameters Without an Optimizer",
+  "type": "paper",
+  "date": "2026-11",
+  "authors": [],
+  "cats": [
+   "wsp"
+  ],
+  "tags": [
+   "hand-written weights",
+   "application"
+  ]
+ },
+ {
+  "url": "https://x.com/DimitrisPapail/status/2120245027804705121",
+  "title": "@DimitrisPapail: Lazare, veni foras: Reprogramming Dormant Neurons to Backdoor AI Agents (X article)",
+  "type": "post",
+  "date": "2026-11-10",
+  "authors": [
+   "@DimitrisPapail"
+  ],
+  "cats": [
+   "edit",
+   "wsp"
+  ],
+  "tags": [
+   "editing weights"
+  ]
+ }
+]

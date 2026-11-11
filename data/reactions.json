@@ -314,5 +314,1641 @@
 "x:2031863054753767888": {
 "host": "x:2031845134577406426",
 "depth": "reaction"
+},
+"x:2120384822300508426": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120367196975124491": {
+"host": null,
+"depth": "analysis"
+},
+"x:2120362706968383982": {
+"host": null,
+"depth": "analysis"
+},
+"x:2120361131260690914": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2120358016843469247": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120382546773254182": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120361317542359051": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2120289556733805037": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2120282128818864173": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120269864778518579": {
+"host": "arxiv:2611.09382",
+"depth": "reaction"
+},
+"x:2120241710659944885": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120224287780938188": {
+"host": null,
+"depth": "analysis"
+},
+"x:2120204107747405921": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120198661581996282": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120197672019624363": {
+"host": null,
+"depth": "analysis"
+},
+"x:2120194664653529566": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120171244066836491": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120164228556526006": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120151220409024551": {
+"host": "arxiv:2611.09382",
+"depth": "reaction"
+},
+"x:2120138065356415052": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120118385174294876": {
+"host": "x:2117376683724660898",
+"depth": "analysis"
+},
+"x:2120115224883642534": {
+"host": "arxiv:2611.09271",
+"depth": "reaction"
+},
+"x:2120111353277108684": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120092569745182804": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120091144969232604": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120089730863763736": {
+"host": null,
+"depth": "analysis"
+},
+"x:2120071645343932594": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2120068129342538148": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120060029927575685": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2120035239586058466": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120019377382953327": {
+"host": "arxiv:2611.09382",
+"depth": "reaction"
+},
+"x:2119994584751337681": {
+"host": "x:2119851548813804026",
+"depth": "reaction"
+},
+"x:2119988369237430708": {
+"host": null,
+"depth": "analysis"
+},
+"x:2119986460980023609": {
+"host": "x:2119976479987822734",
+"depth": "reaction"
+},
+"x:2119980084928860537": {
+"host": "x:2119976479987822734",
+"depth": "reaction"
+},
+"x:2119977781186686994": {
+"host": "x:2119976479987822734",
+"depth": "reaction"
+},
+"x:2119964952866042361": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119964561306751282": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2120231265354027135": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120293243841872352": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120279049687753162": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120275429881978969": {
+"host": "x:2118049087362596925",
+"depth": "reaction"
+},
+"x:2120256469467865579": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2120155098802254092": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2120154546026536995": {
+"host": null,
+"depth": "analysis"
+},
+"x:2120139938117079183": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2120124341027270743": {
+"host": null,
+"depth": "analysis"
+},
+"x:2119976479987822734": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2119952094606377226": {
+"host": null,
+"depth": "analysis"
+},
+"x:2120173461406711869": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2119935953246601229": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119933371321094373": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119906401174614454": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119898559944462529": {
+"host": "x:2119416808273019037",
+"depth": "analysis"
+},
+"x:2119889047271457115": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119879710566240338": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119864799874224426": {
+"host": null,
+"depth": "analysis"
+},
+"x:2119864174561939675": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2119857298730635358": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2119851548813804026": {
+"host": null,
+"depth": "analysis"
+},
+"x:2119845893755351417": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2119834810453807148": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2119831231378628942": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119676540229411107": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2119825868092756074": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2119822679171826114": {
+"host": "url:df74df40cd2a",
+"depth": "reaction"
+},
+"x:2119803714424733917": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2119796403459510406": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2119858721618788782": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119744658951512067": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2119670534090756160": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119688295806546308": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2119688306544038234": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2119747647779315764": {
+"host": "arxiv:2611.09271",
+"depth": "reaction"
+},
+"x:2119685680733577705": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119705187745230965": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119781609939644655": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119783076675059757": {
+"host": null,
+"depth": "analysis"
+},
+"x:2119783508164083908": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2119911957838856490": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2119878959407972783": {
+"host": "arxiv:2611.09382",
+"depth": "reaction"
+},
+"x:2119827110432829716": {
+"host": "arxiv:2611.09382",
+"depth": "reaction"
+},
+"x:2119814773798035863": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2119799798836408607": {
+"host": "x:2119416808273019037",
+"depth": "reaction"
+},
+"x:2119795945042808965": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2119475110671470766": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2119457983713419376": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2119439936248299927": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2119251942450901063": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2119432469581639768": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119271914481025318": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119475824537616812": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119415368473260268": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119414341506060678": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119467463540986083": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2119461812148019437": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119416808273019037": {
+"host": null,
+"depth": "analysis"
+},
+"x:2119340583294828796": {
+"host": null,
+"depth": "analysis"
+},
+"x:2119424910028165269": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119325874478833891": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119257522142134531": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118897997748822477": {
+"host": "x:2118897078550307050",
+"depth": "reaction"
+},
+"x:2119129708864676346": {
+"host": null,
+"depth": "analysis"
+},
+"x:2119037154164928749": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2118971715841929336": {
+"host": "x:2116938733815738516",
+"depth": "analysis"
+},
+"x:2118871382427930742": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2119088823200067648": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118904702729351293": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119119175020945585": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2119154657838932400": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2119110006603665904": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118897489025892367": {
+"host": "x:2118897078550307050",
+"depth": "analysis"
+},
+"x:2119086282056106119": {
+"host": null,
+"depth": "reaction"
+},
+"x:2118857207970500828": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2119012484510064908": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118959776197648506": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2118767400267248022": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2118798409578758234": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118690807154635006": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118687838585925793": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2118528948678123830": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118498346377805912": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2118803512012550424": {
+"host": "x:2115703956240535935",
+"depth": "reaction"
+},
+"x:2118698492461781245": {
+"host": null,
+"depth": "reaction"
+},
+"x:2118834387051524403": {
+"host": null,
+"depth": "analysis"
+},
+"x:2118682296416883138": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2118839936715501682": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2118818588857598117": {
+"host": "forced:https://xingjianbai.com/reactive-optimizers/",
+"depth": "reaction"
+},
+"x:2118667419774558326": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118710928963494190": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118555639559634954": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118723361572368741": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2118700145982447711": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118699577184235958": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2118168932431675707": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118411845245829283": {
+"host": "x:2118411839038206329",
+"depth": "reaction"
+},
+"x:2118238458498121948": {
+"host": null,
+"depth": "reaction"
+},
+"x:2118471812850016668": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118448041669644690": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2118447761012179079": {
+"host": null,
+"depth": "reaction"
+},
+"x:2118420943001604158": {
+"host": "x:2115703956240535935",
+"depth": "analysis"
+},
+"x:2118419500974653467": {
+"host": "x:2115703956240535935",
+"depth": "analysis"
+},
+"x:2118350550970626175": {
+"host": null,
+"depth": "reaction"
+},
+"x:2118346394872537117": {
+"host": "x:2118034426521432350",
+"depth": "analysis"
+},
+"x:2118341689006063787": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118332189293019183": {
+"host": "x:2115703956240535935",
+"depth": "reaction"
+},
+"x:2118299769747767698": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2118228793177575765": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2118187766903144626": {
+"host": "x:2115703956240535935",
+"depth": "analysis"
+},
+"x:2118134448806113632": {
+"host": null,
+"depth": "analysis"
+},
+"x:2118309908919554064": {
+"host": "x:2116938733815738516",
+"depth": "reaction"
+},
+"x:2118215833629659293": {
+"host": "x:2116201494055948375",
+"depth": "analysis"
+},
+"x:2118158595216793878": {
+"host": "x:2116938733815738516",
+"depth": "reaction"
+},
+"x:2118155240046219775": {
+"host": "x:2116938733815738516",
+"depth": "reaction"
+},
+"x:2118134451045818709": {
+"host": "x:2117641713036759494",
+"depth": "analysis"
+},
+"x:2118135958990426538": {
+"host": null,
+"depth": "reaction"
+},
+"x:2118160557354447275": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118214251143725203": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118280647953285611": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118424048128479461": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118365436483960837": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118397760860803574": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118162710256844975": {
+"host": "x:2118065460377792918",
+"depth": "reaction"
+},
+"x:2118373527346614718": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2118216199008075885": {
+"host": "x:2118065460377792918",
+"depth": "reaction"
+},
+"x:2118226806944002307": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118184578204737697": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118335501379969265": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2118404358333481470": {
+"host": "x:2117641713036759494",
+"depth": "analysis"
+},
+"x:2118319733653299221": {
+"host": "x:2115703956240535935",
+"depth": "analysis"
+},
+"x:2118198234648600695": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2118189406641074418": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118424120342008006": {
+"host": "x:2116938733815738516",
+"depth": "analysis"
+},
+"x:2118424783880683700": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2117932263170277847": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118102451060645891": {
+"host": "x:2118034426521432350",
+"depth": "reaction"
+},
+"x:2118083532631248949": {
+"host": "x:2118034426521432350",
+"depth": "analysis"
+},
+"x:2118073579665518893": {
+"host": "x:2118034426521432350",
+"depth": "reaction"
+},
+"x:2118035822138085510": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118034426521432350": {
+"host": null,
+"depth": "analysis"
+},
+"x:2117960324083019905": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2117821598539637164": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2117779672834654296": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2117777897683566899": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2118063589387042920": {
+"host": "x:2116938733815738516",
+"depth": "analysis"
+},
+"x:2118008471610343452": {
+"host": "x:2116938733815738516",
+"depth": "reaction"
+},
+"x:2117879030758138181": {
+"host": "x:2116938733815738516",
+"depth": "reaction"
+},
+"x:2117849013508767871": {
+"host": "x:2117810854489923816",
+"depth": "reaction"
+},
+"x:2117788226211766356": {
+"host": "x:2116201494055948375",
+"depth": "analysis"
+},
+"x:2117787513909813633": {
+"host": "x:2116201494055948375",
+"depth": "reaction"
+},
+"x:2117786775846617517": {
+"host": "x:2116201494055948375",
+"depth": "analysis"
+},
+"x:2118087032664977809": {
+"host": "x:2118034426521432350",
+"depth": "reaction"
+},
+"x:2117937163161481606": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2117769506080670199": {
+"host": "forced:https://xingjianbai.com/reactive-optimizers/",
+"depth": "reaction"
+},
+"x:2118065460377792918": {
+"host": "x:2118049087362596925",
+"depth": "analysis"
+},
+"x:2118129381117939988": {
+"host": null,
+"depth": "analysis"
+},
+"x:2118049087362596925": {
+"host": null,
+"depth": "reaction"
+},
+"x:2117772326766891400": {
+"host": null,
+"depth": "reaction"
+},
+"x:2117927367372873799": {
+"host": "x:2117392093287268688",
+"depth": "analysis"
+},
+"x:2117869677104025966": {
+"host": null,
+"depth": "reaction"
+},
+"x:2117917499622662211": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2117970440198984112": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2118108311660994918": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118098865274736761": {
+"host": "x:2117641713036759494",
+"depth": "reaction"
+},
+"x:2117810854489923816": {
+"host": null,
+"depth": "analysis"
+},
+"x:2117771884037386620": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2117817072449454310": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2118018295055994975": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2117781068816519204": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2117606441678729464": {
+"host": null,
+"depth": "analysis"
+},
+"x:2117679817751495140": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2117682994487910884": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2117641717121953974": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2117604070915768331": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2117595148775563514": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2117548173132804513": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2117512041082589393": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2117456655340503155": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2117697106857353335": {
+"host": "x:2117641713036759494",
+"depth": "reaction"
+},
+"x:2117667265399455771": {
+"host": "x:2117641713036759494",
+"depth": "analysis"
+},
+"x:2117580803777663280": {
+"host": "x:2116938733815738516",
+"depth": "reaction"
+},
+"x:2117580800640397476": {
+"host": "x:2116938733815738516",
+"depth": "analysis"
+},
+"x:2117530597036048789": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2117481428166295708": {
+"host": "forced:https://xingjianbai.com/reactive-optimizers/",
+"depth": "analysis"
+},
+"x:2117462235693908335": {
+"host": null,
+"depth": "analysis"
+},
+"x:2117641106221371407": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2117711657476530519": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2117420288380187020": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2117329108715569581": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2117337735237337259": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2117295058785603989": {
+"host": "x:2115394340357116169",
+"depth": "analysis"
+},
+"x:2117199724868776429": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2117320284391059633": {
+"host": "x:2116938733815738516",
+"depth": "reaction"
+},
+"x:2117230570329764014": {
+"host": "x:2116544960023687432",
+"depth": "reaction"
+},
+"x:2117083963617669415": {
+"host": "x:2116544960023687432",
+"depth": "reaction"
+},
+"x:2117198867867320442": {
+"host": "x:2116938733815738516",
+"depth": "reaction"
+},
+"x:2117396722209222794": {
+"host": null,
+"depth": "reaction"
+},
+"x:2117384326828409074": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2117404776329879934": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2117234191381254436": {
+"host": null,
+"depth": "reaction"
+},
+"x:2117262960422797446": {
+"host": "x:2116544960023687432",
+"depth": "reaction"
+},
+"x:2117041758412386359": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116986852217688396": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116940742853894177": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116934010568122426": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116929504652222530": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116794805300892014": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116782223739474007": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116905665922818233": {
+"host": "x:2116201494055948375",
+"depth": "reaction"
+},
+"x:2116797490083021185": {
+"host": "x:2116544960023687432",
+"depth": "reaction"
+},
+"x:2116685807717331399": {
+"host": "x:2116544960023687432",
+"depth": "analysis"
+},
+"x:2117023544471085063": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116978948894773418": {
+"host": null,
+"depth": "reaction"
+},
+"x:2116934902885257443": {
+"host": "x:2115394340357116169",
+"depth": "analysis"
+},
+"x:2116862831576420610": {
+"host": "x:2116544960023687432",
+"depth": "reaction"
+},
+"x:2116944032026767496": {
+"host": "x:2116544960023687432",
+"depth": "reaction"
+},
+"x:2116593452771418277": {
+"host": "x:2115703956240535935",
+"depth": "reaction"
+},
+"x:2116519668173217940": {
+"host": "x:2115703956240535935",
+"depth": "reaction"
+},
+"x:2116470897011818827": {
+"host": "x:2115394340357116169",
+"depth": "analysis"
+},
+"x:2116468100925157378": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116409841011110067": {
+"host": "x:2116201494055948375",
+"depth": "reaction"
+},
+"x:2116409840625222015": {
+"host": "x:2116201494055948375",
+"depth": "analysis"
+},
+"x:2116379846162927714": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116341114299097098": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116599836682383630": {
+"host": "x:2116201494055948375",
+"depth": "reaction"
+},
+"x:2116534896470761583": {
+"host": "x:2116201494055948375",
+"depth": "reaction"
+},
+"x:2116474007633478138": {
+"host": "x:2116201494055948375",
+"depth": "reaction"
+},
+"x:2116354805807657387": {
+"host": "x:2115394340357116169",
+"depth": "analysis"
+},
+"x:2116472881236349023": {
+"host": "x:2116201494055948375",
+"depth": "reaction"
+},
+"x:2116354806986211695": {
+"host": "x:2115394340357116169",
+"depth": "analysis"
+},
+"x:2116352744084865109": {
+"host": "x:2115394340357116169",
+"depth": "analysis"
+},
+"x:2116295732332499120": {
+"host": "x:2115394340357116169",
+"depth": "analysis"
+},
+"x:2116268231686283532": {
+"host": "x:2115703956240535935",
+"depth": "reaction"
+},
+"x:2116258821391650951": {
+"host": "x:2115394340357116169",
+"depth": "analysis"
+},
+"x:2116242235410772281": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2116229946515292626": {
+"host": "x:2116201494055948375",
+"depth": "reaction"
+},
+"x:2116201859446903284": {
+"host": "x:2116201494055948375",
+"depth": "analysis"
+},
+"x:2116114296279081222": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2116224498777411707": {
+"host": "x:2116201494055948375",
+"depth": "analysis"
+},
+"x:2115611732723020137": {
+"host": "x:2115404434503344238",
+"depth": "reaction"
+},
+"x:2115395278237020650": {
+"host": "x:2115394340357116169",
+"depth": "analysis"
+},
+"x:2115346262790733882": {
+"host": "forced:https://xingjianbai.com/reactive-optimizers/",
+"depth": "reaction"
+},
+"x:2115464214290838011": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2114768648250511610": {
+"host": null,
+"depth": "reaction"
+},
+"x:2114766389181329464": {
+"host": null,
+"depth": "reaction"
+},
+"x:2114763840366002612": {
+"host": null,
+"depth": "reaction"
+},
+"x:2114693872270135638": {
+"host": null,
+"depth": "reaction"
+},
+"x:2113394028041355279": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2113393561354006769": {
+"host": "forced:https://xingjianbai.com/reactive-optimizers/",
+"depth": "reaction"
+},
+"x:2112842984626725334": {
+"host": null,
+"depth": "reaction"
+},
+"x:2112985236334084249": {
+"host": "forced:https://xingjianbai.com/reactive-optimizers/",
+"depth": "reaction"
+},
+"x:2112940642800226540": {
+"host": "forced:https://xingjianbai.com/reactive-optimizers/",
+"depth": "reaction"
+},
+"x:2112936843649888764": {
+"host": "forced:https://xingjianbai.com/reactive-optimizers/",
+"depth": "analysis"
+},
+"x:2112503216579711171": {
+"host": null,
+"depth": "reaction"
+},
+"x:2111032160677404855": {
+"host": null,
+"depth": "analysis"
+},
+"x:2110855090190119078": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2110852254924247445": {
+"host": null,
+"depth": "reaction"
+},
+"x:2110786341998841961": {
+"host": null,
+"depth": "analysis"
+},
+"x:2110673390965338614": {
+"host": null,
+"depth": "reaction"
+},
+"x:2110807032328786372": {
+"host": null,
+"depth": "analysis"
+},
+"x:2109993161875771619": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2109770408790765782": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2108503768480280664": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2108159303622570315": {
+"host": null,
+"depth": "reaction"
+},
+"x:2107353462375887348": {
+"host": null,
+"depth": "analysis"
+},
+"x:2107443764490887264": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2107443069976981688": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2107087489039057132": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2107084856404623871": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2105743628002009402": {
+"host": "x:2097382270147387499",
+"depth": "analysis"
+},
+"x:2105228746563498104": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2104963762914537707": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2104615476798308573": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2104614205789999229": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2103465029748371475": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2102092831124816076": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2102011887361667379": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2100913599669469499": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2099881304665801061": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2099844307423305839": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2099815239621505500": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2098398702658355302": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2098416308387733737": {
+"host": null,
+"depth": "analysis"
+},
+"x:2097466784018575620": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2097382270147387499": {
+"host": null,
+"depth": "reaction"
+},
+"x:2096999819248046246": {
+"host": null,
+"depth": "reaction"
+},
+"x:2095454280610091103": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2095438840215331052": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2094509135563837854": {
+"host": null,
+"depth": "reaction"
+},
+"x:2093670173861446084": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2093084680815776004": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2093044061485592598": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2092974484886065612": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2092920639334080619": {
+"host": null,
+"depth": "reaction"
+},
+"x:2092052339075043331": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2091268626644967560": {
+"host": null,
+"depth": "analysis"
+},
+"x:2088352114305020036": {
+"host": "url:50fdacb04999",
+"depth": "reaction"
+},
+"x:2087210685008879876": {
+"host": null,
+"depth": "analysis"
+},
+"x:2086819239743143988": {
+"host": "x:2097382270147387499",
+"depth": "reaction"
+},
+"x:2086769420513222659": {
+"host": null,
+"depth": "reaction"
+},
+"x:2084628886701138117": {
+"host": null,
+"depth": "reaction"
+},
+"x:2083406719695323352": {
+"host": null,
+"depth": "reaction"
+},
+"x:2082080863223730385": {
+"host": null,
+"depth": "reaction"
+},
+"x:2080795847965720923": {
+"host": null,
+"depth": "reaction"
+},
+"x:2080235527232512017": {
+"host": null,
+"depth": "reaction"
+},
+"x:2077609419429314939": {
+"host": null,
+"depth": "analysis"
+},
+"x:2077606387769655714": {
+"host": null,
+"depth": "reaction"
+},
+"x:2077580739160293761": {
+"host": null,
+"depth": "reaction"
+},
+"x:2077594915144343606": {
+"host": null,
+"depth": "reaction"
+},
+"x:2075492050649120836": {
+"host": null,
+"depth": "analysis"
+},
+"x:2072639510307893723": {
+"host": null,
+"depth": "reaction"
+},
+"x:2070156005732671980": {
+"host": null,
+"depth": "reaction"
+},
+"x:2069776233898906057": {
+"host": null,
+"depth": "reaction"
+},
+"x:2067601377627340854": {
+"host": null,
+"depth": "reaction"
+},
+"x:2062387638255190046": {
+"host": null,
+"depth": "reaction"
+},
+"x:2062023547514409011": {
+"host": null,
+"depth": "reaction"
+},
+"x:2061205925889978402": {
+"host": null,
+"depth": "reaction"
+},
+"x:2056963386936553668": {
+"host": null,
+"depth": "analysis"
+},
+"x:2055039742807302450": {
+"host": null,
+"depth": "analysis"
+},
+"x:2052769268748456002": {
+"host": null,
+"depth": "reaction"
+},
+"x:2048802849077723533": {
+"host": null,
+"depth": "analysis"
+},
+"x:2048803592346202227": {
+"host": null,
+"depth": "reaction"
+},
+"x:2046090154318999694": {
+"host": null,
+"depth": "analysis"
+},
+"x:2044844524896194984": {
+"host": "url:96b1093afa3c",
+"depth": "reaction"
+},
+"x:2044111192885735503": {
+"host": null,
+"depth": "analysis"
+},
+"x:2043262019176944127": {
+"host": null,
+"depth": "reaction"
+},
+"x:2042642041687916773": {
+"host": null,
+"depth": "reaction"
+},
+"x:2042212766623121499": {
+"host": null,
+"depth": "reaction"
+},
+"x:2041479492506464668": {
+"host": null,
+"depth": "reaction"
+},
+"x:2039409069404914144": {
+"host": null,
+"depth": "reaction"
+},
+"x:2038644387979182225": {
+"host": null,
+"depth": "reaction"
+},
+"x:2037051212546371813": {
+"host": "x:2036908489386160370",
+"depth": "analysis"
+},
+"x:2036908489386160370": {
+"host": null,
+"depth": "reaction"
+},
+"x:2036860150854582702": {
+"host": null,
+"depth": "reaction"
+},
+"x:2034043343701979301": {
+"host": "x:2031845134577406426",
+"depth": "reaction"
+},
+"x:1889396055449674136": {
+"host": null,
+"depth": "reaction"
+},
+"x:1666448491365687298": {
+"host": null,
+"depth": "analysis"
+},
+"x:1654157450273075202": {
+"host": null,
+"depth": "reaction"
+},
+"x:1625469245034467330": {
+"host": null,
+"depth": "reaction"
+},
+"x:1522150900495978496": {
+"host": null,
+"depth": "reaction"
+},
+"x:2120275924906373427": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2120221704584876515": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2120179621018698121": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2120098055244640629": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2120079040128119110": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2119887670511804534": {
+"host": null,
+"depth": "reaction"
+},
+"x:2119848710800634199": {
+"host": "url:161b87e4f8bb",
+"depth": "analysis"
+},
+"x:2119832078531596770": {
+"host": null,
+"depth": "analysis"
+},
+"x:2119822320432828714": {
+"host": "x:2117313742891327994",
+"depth": "analysis"
+},
+"x:2119802679018824004": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2119882918524858705": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2118788219273613312": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2118621434939650092": {
+"host": "url:38c41eb0ed98",
+"depth": "analysis"
+},
+"x:2118154744195850317": {
+"host": null,
+"depth": "reaction"
+},
+"x:2118305045435539596": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2118097760503439721": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2118087692936265851": {
+"host": "url:38c41eb0ed98",
+"depth": "reaction"
+},
+"x:2118025257634414807": {
+"host": "x:2117313742891327994",
+"depth": "reaction"
+},
+"x:2117900718996947454": {
+"host": null,
+"depth": "reaction"
+},
+"x:2117514554079109217": {
+"host": "url:44e3e5f137f8",
+"depth": "reaction"
+},
+"x:2117753088274776190": {
+"host": "url:44e3e5f137f8",
+"depth": "analysis"
+},
+"x:2116628778671636889": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116496657520918835": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2116598812659654810": {
+"host": "x:2116201494055948375",
+"depth": "reaction"
+},
+"x:2116492955720544283": {
+"host": "x:2116201494055948375",
+"depth": "analysis"
+},
+"x:2115711912201576689": {
+"host": "x:2115394340357116169",
+"depth": "reaction"
+},
+"x:2111040959110922327": {
+"host": null,
+"depth": "analysis"
+},
+"x:2044103139758854223": {
+"host": null,
+"depth": "reaction"
+},
+"x:2036964665507365230": {
+"host": "x:2036908489386160370",
+"depth": "analysis"
 }
 }

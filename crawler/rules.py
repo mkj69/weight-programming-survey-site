@@ -6,7 +6,9 @@ I = re.I
 CAT = {
     "wsp": [r"weight[- ]space programming", r"\bLLMs? (?:can )?(?:natively )?(?:read|write|edit)s? .{0,30}weights", r"qwenputer",
             r"read(?:s|ing)? (?:the )?(?:raw )?(?:neural network |model )?weights", r"(?:edit|rewrit)(?:e|es|ing) (?:the )?(?:model|network)'?s? weights",
-            r"hand-?(?:written|crafted|set|coded) (?:neural network |transformer )?weights", r"weightprogrambench", r"wspbench"],
+            r"hand-?(?:written|crafted|set|coded) (?:neural network |transformer )?weights", r"weightprogrambench", r"wspbench",
+            r"reactive optimi[sz]ers?", r"optimi[sz]er agents?", r"agents? .{0,40}(?:rewrit|redesign|edit|modif)\w* .{0,30}(?:optimi[sz]er|network|weights|architecture) .{0,30}(?:during|while|as) .{0,15}train",
+            r"agents? (?:in|inside) (?:the )?training loop", r"self-improvement optimi[sz]er"],
     "compile": [r"compiled transformers?", r"\bRASP\b", r"\btracr\b", r"transformer programs?", r"compil(?:e|es|ed|ing|er) .{0,40}(?:into|to) .{0,20}weights",
                 r"looped transformers?", r"programmable computers?", r"computer (?:inside|in|into) .{0,25}weights", r"hand-?crafted transformers?",
                 r"(?:analytically|explicitly) (?:constructed|set|compiled) weights", r"torchwright", r"qwen(?:fs|gpu|pu)\b", r"nesformer", r"transformer-vm"],

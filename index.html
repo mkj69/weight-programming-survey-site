@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
 <title>Weight Space Reader</title>
 <meta name="description" content="A collection of work on reading, writing, editing and compiling neural network weights, with an embedded reader and comments.">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=4">
 </head>
 <body>
 <header class="top">
@@ -15,11 +16,17 @@
     <input id="addUrl" type="url" placeholder="Paste a link to add it" aria-label="Link to add">
     <button type="submit">Add</button>
   </form>
+  <label class="check top-opt" title="Needs a browser extension that lifts embedding limits"><input type="checkbox" id="force"> Embed all sites</label>
   <button class="icon" id="theme" type="button" aria-label="Toggle dark mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
 </header>
 <div class="app" id="app">
   <aside class="side">
     <div class="filters">
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" data-v="key" class="on">Key works</button>
+        <button type="button" role="tab" data-v="all">All</button>
+        <button type="button" role="tab" data-v="star">Starred</button>
+      </div>
       <input id="q" type="search" placeholder="Search titles, authors, summaries" aria-label="Search">
       <div class="row">
         <select id="cat" aria-label="Category"><option value="">All categories</option></select>
@@ -34,10 +41,7 @@
         </select>
       </div>
       <div class="row checks">
-        <label class="check"><input type="checkbox" id="classic"> Classics</label>
-        <label class="check"><input type="checkbox" id="starred"> Starred</label>
-        <label class="check" title="Posts that react to another item are grouped under it"><input type="checkbox" id="showrx"> Reactions</label>
-        <label class="check" title="Needs a browser extension that lifts embedding limits"><input type="checkbox" id="force"> Embed all sites</label>
+        <label class="check" title="Posts that react to another item are grouped under it"><input type="checkbox" id="showrx"> Show reactions as items</label>
       </div>
       <div class="count" id="count"></div>
     </div>
@@ -70,7 +74,7 @@
     </article>
   </main>
 </div>
-<script src="assets/config.js"></script>
-<script src="assets/app.js"></script>
+<script src="assets/config.js?v=3"></script>
+<script src="assets/app.js?v=4"></script>
 </body>
 </html>

@@ -38,6 +38,14 @@ def text_of(raw):
 
 def main():
     items = {i["id"]: i for i in json.load(open(os.path.join(ROOT, "data", "items.json")))["items"]}
+    crawled = {}
+    for name in ("browser_x.jsonl", "x_candidates.jsonl"):
+        pth = os.path.join(HERE, "work", name)
+        if os.path.exists(pth):
+            for line in open(pth):
+                r = json.loads(line)
+                q = (r.get("quote") or "").split(":", 1)[-1] or None
+                crawled[r["key"]] = (r.get("abstract", "")[:1200], q)
     posts = {}
     for iid, it in items.items():
         if it["y"] != "post":
@@ -45,6 +53,10 @@ def main():
         f = os.path.join(RAW, "x-" + iid.split(":", 1)[1] + ".md")
         if os.path.exists(f):
             posts[iid] = text_of(open(f, errors="replace").read())
+        elif iid in crawled:
+            posts[iid] = crawled[iid]
+    old_p = os.path.join(ROOT, "data", "reactions.json")
+    old = json.load(open(old_p)) if os.path.exists(old_p) else {}
     quoted = {f"x:{q}" for _, q in posts.values() if q and f"x:{q}" in items}
     # Hosts: posts that others quote, plus the main non-post works (papers, blogs, code) on these topics.
     hosts = {h: items[h]["t"] for h in quoted}
@@ -54,11 +66,13 @@ def main():
     host_list = "\n".join(json.dumps(dict(id=k, title=v[:120]), ensure_ascii=False) for k, v in hosts.items())
     batch = []
     for iid, (text, q) in posts.items():
+        if iid in old:
+            continue
         b = dict(id=iid, text=text)
         if q and f"x:{q}" in items:
             b["quotes"] = f"x:{q}"
         batch.append(b)
-    out = {}
+    out = dict(old)
     for k in range(0, len(batch), 25):
         chunk = batch[k:k + 25]
         with tempfile.TemporaryDirectory() as td:

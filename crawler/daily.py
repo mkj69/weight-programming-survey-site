@@ -28,6 +28,7 @@ def main():
     since = (datetime.date.fromisoformat(last) - datetime.timedelta(days=3)).isoformat()
     run("crawler/other.py", "--since", since)
     run("crawler/arxiv_recent.py", "--since", since)
+    run("crawler/x_accounts.py", "--since", since)
     if os.environ.get("OPENALEX_API_KEY"):
         run("crawler/papers.py", "--since", since)
     run("crawler/classify.py")

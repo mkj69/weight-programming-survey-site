@@ -41,11 +41,28 @@ def normalise():
     for r in load("oa_candidates.jsonl") + load("arxiv_candidates.jsonl"):
         key = f"arxiv:{r['arxiv']}" if r.get("arxiv") else (f"doi:{r['doi'].split('doi.org/')[-1].lower()}" if r.get("doi") else f"oa:{r['oa']}")
         recs.append(dict(r, key=key, type="paper", text=r.get("abstract", "")))
-    for r in load("other_candidates.jsonl"):
+    for r in load("other_candidates.jsonl") + load("x_candidates.jsonl") + load("browser_x.jsonl"):
         recs.append(dict(r, text=" ".join([r.get("abstract") or "", " ".join(r.get("topics") or [])])))
     for r in load("survey_items.jsonl"):
         recs.append(dict(r, text=r.get("abstract", ""), survey=True))
     return recs
+
+
+def fetch_arxiv_oa(aid):
+    """Look up an arXiv paper in OpenAlex (used for forced items the crawl did not see)."""
+    import urllib.request
+    key = os.environ.get("OPENALEX_API_KEY")
+    if not key and os.path.exists(os.path.join(WORK, ".env")):
+        key = open(os.path.join(WORK, ".env")).read().split("=", 1)[1].strip()
+    try:
+        sys.path.insert(0, HERE)
+        from papers import slim, FIELDS
+        req = urllib.request.Request(f"https://api.openalex.org/works/doi:10.48550/arXiv.{aid}?select={FIELDS}", headers={"User-Agent": "wsr", **({"Authorization": "Bearer " + key} if key else {})})
+        w = json.load(urllib.request.urlopen(req, timeout=60))
+        return dict(slim(w, "forced"), text="")
+    except Exception as ex:
+        print("forced lookup failed", aid, ex, flush=True)
+        return None
 
 
 def run_codex(batch):
@@ -92,7 +109,8 @@ def main():
                 queue[r["key"]] = r
         elif strong:
             accepted.setdefault(r["key"], dict(r, cats=strong, tags=tags_for(strong, r["title"], r.get("text")), how="rule"))
-        elif s and r["key"] not in accepted:
+        elif (s or "browser-search" in (r.get("via") or [])) and r["key"] not in accepted:
+            # Posts found by a topical X search are judged by the LLM even without keyword hits.
             queue[r["key"]] = r
     print(f"candidates={len(recs)} accepted_by_rule={len(accepted)} uncertain={len(queue)}", flush=True)
     if a.llm and queue:
@@ -124,6 +142,18 @@ def main():
             cats = [c for c in j.get("cats", []) if c in TAG_CAT] or list(score(r["title"], r.get("text")))
             tags = [t for t in j.get("tags", []) if any(t in TAG_CAT[c] for c in cats)]
             accepted[k] = dict(r, cats=cats, tags=tags or tags_for(cats, r["title"], r.get("text")), how="llm")
+    # Hand-picked items that must be included (crawler/forced.json).
+    forced = json.load(open(os.path.join(HERE, "forced.json")))
+    by_arxiv = {r.get("arxiv"): r for r in recs if r.get("arxiv")}
+    for fr in forced:
+        if fr.get("arxiv"):
+            r = by_arxiv.get(fr["arxiv"]) or fetch_arxiv_oa(fr["arxiv"])
+            if not r:
+                continue
+            r = dict(r, key=f"arxiv:{fr['arxiv']}", type="paper", url=f"https://arxiv.org/abs/{fr['arxiv']}", arxiv=fr["arxiv"])
+        else:
+            r = dict(fr, key="forced:" + fr["url"], abstract="", text="")
+        accepted[r["key"]] = dict(r, cats=fr["cats"], tags=fr["tags"], how="survey")
     with open(os.path.join(WORK, "classified.jsonl"), "w") as f:
         for r in accepted.values():
             f.write(json.dumps(r, ensure_ascii=False) + "\n")

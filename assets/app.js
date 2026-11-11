@@ -6,6 +6,13 @@
   const PAGE = 200;
   let DATA = null, shown = PAGE, current = null, rows = [];
   const byId = {};
+  let VIEW = "key";
+  const isKey = (it) => it.cl || it.s || (it.rx && it.rx.length >= 2);
+  document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
+    VIEW = b.dataset.v;
+    document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("on", x === b));
+    shown = PAGE; render();
+  }));
 
   const root = document.documentElement;
   try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch (e) {}
@@ -27,7 +34,7 @@
     for (const t of d.types) $("type").insertAdjacentHTML("beforeend", `<option value="${t}">${esc(t[0].toUpperCase() + t.slice(1))}</option>`);
     fillTags();
     $("updated").textContent = `${d.items.length.toLocaleString()} items · updated ${d.updated}`;
-    ["q", "cat", "type", "tag", "sort", "starred", "classic", "showrx"].forEach((id) => $(id).addEventListener("input", () => { if (id === "cat") fillTags(); shown = PAGE; render(); }));
+    ["q", "cat", "type", "tag", "sort", "showrx"].forEach((id) => $(id).addEventListener("input", () => { if (id === "cat") fillTags(); shown = PAGE; render(); }));
     render();
     route();
   });
@@ -40,9 +47,9 @@
   }
 
   function filtered() {
-    const q = $("q").value.trim().toLowerCase(), cat = $("cat").value, type = $("type").value, tag = $("tag").value, star = $("starred").checked, classic = $("classic").checked, showrx = $("showrx").checked;
+    const q = $("q").value.trim().toLowerCase(), cat = $("cat").value, type = $("type").value, tag = $("tag").value, showrx = $("showrx").checked, view = VIEW;
     let xs = DATA.items.filter((it) =>
-      (!cat || it.c.includes(cat)) && (!type || it.y === type) && (!tag || it.g.includes(tag)) && (!star || it.s) && (!classic || it.cl) && (showrx || !it.rof || it.s) &&
+      (!cat || it.c.includes(cat)) && (!type || it.y === type) && (!tag || it.g.includes(tag)) && (view !== "star" || it.s) && (view !== "key" || isKey(it)) && (showrx || !it.rof || it.s) &&
       (!q || (it.t + " " + (it.a || "") + " " + (it.v || "") + " " + (it.sm || "")).toLowerCase().includes(q)));
     const s = $("sort").value;
     xs.sort(s === "cited" ? (a, b) => (b.n || 0) - (a.n || 0) : s === "old" ? (a, b) => (a.d || "9").localeCompare(b.d || "9") : (a, b) => (b.d || "").localeCompare(a.d || ""));
@@ -51,10 +58,10 @@
 
   function render() {
     rows = filtered();
-    $("count").textContent = `${rows.length.toLocaleString()} of ${DATA.items.length.toLocaleString()}`;
+    $("count").textContent = VIEW === "key" ? `${rows.length} key works · ${DATA.items.length.toLocaleString()} items in all` : `${rows.length.toLocaleString()} of ${DATA.items.length.toLocaleString()}`;
     $("list").innerHTML = rows.slice(0, shown).map((it) => {
       const meta = [it.y, it.d, it.a && it.a.split(",")[0] + (it.a.includes(",") ? " et al." : "")].filter(Boolean).join(" · ");
-      return `<li data-id="${esc(it.id)}" class="${current && current.id === it.id ? "on" : ""}"><div class="t">${it.s ? '<span class="s" title="Starred">★</span>' : ""}<span>${esc(it.t)}</span>${it.cl ? '<span class="cl">Classic</span>' : ""}</div>${it.sm ? `<div class="sm">${esc(it.sm)}</div>` : ""}<div class="m">${esc(meta)}${rxCount(it)}</div></li>`;
+      return `<li data-id="${esc(it.id)}" class="${current && current.id === it.id ? "on" : ""}${isKey(it) ? " key" : ""}"><div class="t">${it.s ? '<span class="s" title="Starred">★</span>' : ""}<span>${esc(it.t)}</span>${it.cl ? '<span class="cl">Classic</span>' : ""}</div>${it.sm ? `<div class="sm">${esc(it.sm)}</div>` : ""}<div class="m">${esc(meta)}${rxCount(it)}</div></li>`;
     }).join("");
     $("more").hidden = rows.length <= shown;
   }

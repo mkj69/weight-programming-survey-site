@@ -495,9 +495,9 @@
 "title": "Reactive optimizers",
 "who": "Xingjian Bai et al.",
 "note": "An agent watches training and rewrites the optimizer's code as training runs.",
-"id": "classic:reactive2026",
-"url": "https://xingjianbai.com/reactive-optimizers/",
-"date": "2026"
+"id": "forced:https://xingjianbai.com/reactive-optimizers/",
+"url": "https://xingjianbai.com/reactive-optimizers",
+"date": "2026-10-21"
 },
 {
 "key": "sparks2026",
