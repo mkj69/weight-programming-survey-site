@@ -1,0 +1,17 @@
+{
+ "categories": {
+  "wsp": "LLMs reading and writing weights",
+  "compile": "Programs compiled into weights",
+  "edit": "Weight editing and model diffs",
+  "fast": "Fast weights and self-modifying networks",
+  "wsl": "Weight-space learning"
+ },
+ "tags": {
+  "wsp": ["reading weights", "editing weights", "hand-written weights", "replication", "critique", "application", "agent in the loop", "benchmark"],
+  "compile": ["RASP / Tracr", "compiler", "circuit injection", "computer in weights", "provably correct"],
+  "edit": ["knowledge editing", "locate and edit", "task vectors", "model merging", "model diffing", "unlearning", "sequential editing"],
+  "fast": ["fast weights", "linear attention", "self-referential", "hypernetworks", "test-time training", "meta-learning"],
+  "wsl": ["weight representations", "equivariant networks", "weight generation", "model zoos", "predicting from weights"]
+ },
+ "types": ["paper", "blog", "post", "code", "model", "dataset", "discussion", "video"]
+}

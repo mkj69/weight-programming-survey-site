@@ -1,0 +1,35 @@
+name: Add or edit an item
+on:
+  issues:
+    types: [opened, labeled]
+permissions:
+  contents: write
+  issues: write
+concurrency: data
+jobs:
+  handle:
+    # Only the repository owner can change the collection.
+    if: github.event.issue.user.login == github.repository_owner && (contains(github.event.issue.labels.*.name, 'add') || contains(github.event.issue.labels.*.name, 'edit'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Apply
+        id: apply
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BODY: ${{ github.event.issue.body }}
+          KIND: ${{ contains(github.event.issue.labels.*.name, 'edit') && 'edit' || 'add' }}
+        run: |
+          printf '%s' "$BODY" > /tmp/body.txt
+          python crawler/add_link.py "$KIND" /tmp/body.txt > /tmp/msg.txt 2>/tmp/err.txt || { echo "Could not apply this request." > /tmp/msg.txt; tail -5 /tmp/err.txt >> /tmp/msg.txt; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || { git commit -m "Apply issue #${{ github.event.issue.number }}" && git push; }
+      - name: Reply and close
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh issue close ${{ github.event.issue.number }} --repo ${{ github.repository }} --comment "$(cat /tmp/msg.txt)"
