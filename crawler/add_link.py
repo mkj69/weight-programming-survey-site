@@ -71,6 +71,19 @@ def main():
     star = field(body, "star").lower()
     tags = [t.strip() for t in field(body, "tags").split(",") if t.strip()]
     cats = [c.strip() for c in re.split(r"[,\s]+", field(body, "category")) if c.strip() in TAG_CAT]
+    m = re.search(r"```json\s*(\{.*?\})\s*```", body, re.S)
+    if kind == "edit" and m:
+        edits = json.loads(m.group(1))
+        for iid, e in edits.items():
+            o = ov.setdefault(iid, {})
+            if "star" in e:
+                o["star"] = bool(e["star"])
+            if isinstance(e.get("tags"), list):
+                o["tags"] = [str(t) for t in e["tags"]][:20]
+        json.dump(ov, open(ov_p, "w"), indent=1, ensure_ascii=False)
+        subprocess.run([sys.executable, "crawler/build.py", "--inp", "/dev/null"], cwd=ROOT, check=True)
+        print(f"Saved edits to {len(edits)} item(s).")
+        return
     if kind == "edit":
         iid = field(body, "id")
         o = ov.setdefault(iid, {})

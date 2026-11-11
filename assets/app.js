@@ -7,6 +7,32 @@
   let DATA = null, shown = PAGE, current = null, rows = [];
   const byId = {};
   let VIEW = "key";
+  // Owner edits made on the page: applied at once in this browser, saved to the repo through an issue.
+  let pending = {};
+  try { pending = JSON.parse(localStorage.getItem("pendingEdits") || "{}"); } catch (e) {}
+  const savePending = () => { try { localStorage.setItem("pendingEdits", JSON.stringify(pending)); } catch (e) {} updateSave(); };
+  function updateSave() {
+    const n = Object.keys(pending).length;
+    $("save").hidden = !n;
+    $("save").textContent = `Save ${n} change${n > 1 ? "s" : ""}`;
+  }
+  function applyPending() {
+    for (const [id, p] of Object.entries(pending)) {
+      const it = byId[id];
+      if (!it) { delete pending[id]; continue; }
+      const same = (p.star === undefined || !!it.s === p.star) && (!p.tags || JSON.stringify([...p.tags].sort()) === JSON.stringify([...it.g].sort()));
+      if (same && p.saved) { delete pending[id]; continue; }
+      if (p.star !== undefined) it.s = p.star;
+      if (p.tags) it.g = p.tags;
+    }
+    savePending();
+  }
+  function edit(it, change) {
+    pending[it.id] = Object.assign(pending[it.id] || {}, change, { saved: false });
+    if (change.star !== undefined) it.s = change.star;
+    if (change.tags) it.g = change.tags;
+    savePending(); open(it); render();
+  }
   const isKey = (it) => it.cl || it.s || (it.rx && it.rx.length >= 2);
   document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
     VIEW = b.dataset.v;
@@ -30,6 +56,7 @@
   fetch("data/items.json").then((r) => r.json()).then((d) => {
     DATA = d;
     for (const it of d.items) byId[it.id] = it;
+    applyPending();
     for (const [k, v] of Object.entries(d.categories)) $("cat").insertAdjacentHTML("beforeend", `<option value="${k}">${esc(v)}</option>`);
     for (const t of d.types) $("type").insertAdjacentHTML("beforeend", `<option value="${t}">${esc(t[0].toUpperCase() + t.slice(1))}</option>`);
     fillTags();
@@ -98,11 +125,19 @@
     $("docSum").textContent = it.sm || "";
     $("docHn").hidden = !it.hn;
     $("docHn").onclick = (e) => { e.preventDefault(); hn($("frame"), Object.assign({}, it, { e: it.hn, _host: it })); };
+    $("docStar").textContent = it.s ? "★" : "☆";
+    $("docStar").classList.toggle("on", !!it.s);
+    $("docStar").onclick = () => edit(it, { star: !it.s });
     const cats = it.c.map((c) => DATA.categories[c]);
-    $("docTags").innerHTML = (it.cl ? '<span class="chip classic">Classic</span>' : "") + (it.s ? '<span class="chip star">★ Starred</span>' : "") + [...cats, ...it.g].map((t) => `<span class="chip">${esc(t)}</span>`).join("");
+    const allowed = [...new Set(it.c.flatMap((c) => DATA.tags[c] || []))].filter((t) => !it.g.includes(t));
+    $("docTags").innerHTML = (it.cl ? '<span class="chip classic">Classic</span>' : "") + cats.map((t) => `<span class="chip cat">${esc(t)}</span>`).join("") +
+      it.g.map((t) => `<span class="chip tag">${esc(t)}<button type="button" data-rm="${esc(t)}" aria-label="Remove tag">×</button></span>`).join("") +
+      (allowed.length ? `<select class="addtag" aria-label="Add tag"><option value="">+ Add tag</option>${allowed.map((t) => `<option>${esc(t)}</option>`).join("")}</select>` : "");
+    $("docTags").querySelectorAll("[data-rm]").forEach((b) => b.onclick = () => edit(it, { tags: it.g.filter((t) => t !== b.dataset.rm) }));
+    const at = $("docTags").querySelector(".addtag");
+    if (at) at.onchange = () => { if (at.value) edit(it, { tags: [...it.g, at.value] }); };
     $("docOpen").href = it.u;
-    const eb = `id: ${it.id}\nstar: ${it.s ? "yes" : "no"}\ntags: ${it.g.join(", ")}\ncategory: ${it.c.join(", ")}\nhide: no\n`;
-    $("docEdit").href = `https://github.com/${C.repo}/issues/new?labels=edit&title=${encodeURIComponent("Edit: " + it.t.slice(0, 80))}&body=${encodeURIComponent(eb)}`;
+
     frame(it);
     reactions(it);
     comments(it);
@@ -211,6 +246,13 @@
     box.appendChild(s);
   }
 
+  $("save").onclick = () => {
+    const edits = {};
+    for (const [id, p] of Object.entries(pending)) { edits[id] = {}; if (p.star !== undefined) edits[id].star = p.star; if (p.tags) edits[id].tags = p.tags; p.saved = true; }
+    savePending();
+    const body = "Edits made on the site. Submit this issue to save them.\n\n```json\n" + JSON.stringify(edits, null, 1) + "\n```\n";
+    window.open(`https://github.com/${C.repo}/issues/new?labels=edit&title=${encodeURIComponent(`Edit ${Object.keys(edits).length} items`)}&body=${encodeURIComponent(body)}`, "_blank", "noopener");
+  };
   $("addForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const u = $("addUrl").value.trim();
