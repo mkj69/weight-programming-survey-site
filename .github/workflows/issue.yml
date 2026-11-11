@@ -25,8 +25,8 @@ jobs:
         run: |
           printf '%s' "$BODY" > /tmp/body.txt
           python crawler/add_link.py "$KIND" /tmp/body.txt > /tmp/msg.txt 2>/tmp/err.txt || { echo "Could not apply this request." > /tmp/msg.txt; tail -5 /tmp/err.txt >> /tmp/msg.txt; }
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
           git add data
           git diff --cached --quiet || { git commit -m "Apply issue #${{ github.event.issue.number }}" && git pull --rebase && git push; }
       - name: Reply and close
