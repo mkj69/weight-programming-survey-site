@@ -1,8 +1,12 @@
 name: Daily update
 on:
   schedule:
-    - cron: "0 13 * * *"   # 08:00 in Chicago during daylight time
-    - cron: "0 14 * * *"   # 08:00 in Chicago during standard time
+    # GitHub may start scheduled runs hours late, so there are several tries; the first one after
+    # 8:00 Chicago time that finds today's update missing does the work, the rest exit at once.
+    - cron: "17 13 * * *"
+    - cron: "17 14 * * *"
+    - cron: "17 17 * * *"
+    - cron: "17 21 * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -11,12 +15,17 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: Run only at 8:00 Chicago time
+      - uses: actions/checkout@v4
+      - name: Decide whether to run
         id: gate
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(TZ=America/Chicago date +%H)" != "08" ]; then echo "go=no" >> "$GITHUB_OUTPUT"; else echo "go=yes" >> "$GITHUB_OUTPUT"; fi
-      - uses: actions/checkout@v4
-        if: steps.gate.outputs.go == 'yes'
+          today=$(TZ=America/Chicago date +%F); hour=$(TZ=America/Chicago date +%H)
+          last=$(python3 -c "import json;print(json.load(open('data/items.json'))['updated'])")
+          if [ "${{ github.event_name }}" != "schedule" ]; then go=yes
+          elif [ "$hour" -lt 8 ]; then go=no; echo "Before 8:00 in Chicago."
+          elif [ "$last" = "$today" ]; then go=no; echo "Already updated today ($today)."
+          else go=yes; fi
+          echo "go=$go" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-python@v5
         if: steps.gate.outputs.go == 'yes'
         with:

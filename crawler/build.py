@@ -7,6 +7,9 @@
 - Keeps items already in data/items.json (the daily job only adds).
 """
 import argparse, datetime, hashlib, json, os, re, sys, urllib.parse, urllib.request
+from zoneinfo import ZoneInfo
+
+TODAY = datetime.datetime.now(ZoneInfo("America/Chicago")).date().isoformat()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -171,7 +174,7 @@ def main():
         text = (r.get("abstract") or "").strip()
         rec = dict(id=iid, t=re.sub(r"\s+", " ", r["title"]).strip(), u=r["url"], k=k, y=r["type"], c=sorted(set(r["cats"])), g=sorted(set(r["tags"])),
                    d=(r.get("date") or "")[:10], a=", ".join(clean_authors(r.get("authors"))[:8]), v=r.get("venue") or r.get("subreddit") or "",
-                   n=r.get("cites") or r.get("stars") or r.get("points") or 0, s=False, added=datetime.date.today().isoformat())
+                   n=r.get("cites") or r.get("stars") or r.get("points") or 0, s=False, added=TODAY)
         if e:
             rec["e"] = e
         if text and (r.get("arxiv") or r["type"] == "code") and not CJK.search(text):
@@ -233,7 +236,7 @@ def main():
                 k, e = view(r, cache)
                 it = dict(id=r["key"], t=cand["title"], u=r["url"], k=k, y="paper", c=[c["cat"]], g=[], d=(cand.get("date") or "")[:10],
                           a=", ".join(clean_authors(cand.get("authors"))[:8]), v=cand.get("venue") or "", n=cand.get("cites") or 0, s=False,
-                          added=datetime.date.today().isoformat())
+                          added=TODAY)
                 if e:
                     it["e"] = e
                 items[it["id"]] = it
@@ -242,7 +245,7 @@ def main():
             iid = "classic:" + c["key"]
             k, e = view(dict(url=u, type="blog" if c.get("url") and "pdf" not in u else "paper"), cache)
             it = dict(id=iid, t=c["title"], u=u, k=k, y="paper" if c["year"] < 2026 else "blog", c=[c["cat"]], g=[], d=str(int(c["year"])), a=c["who"], v="", n=0, s=False,
-                      added=datetime.date.today().isoformat())
+                      added=TODAY)
             if e:
                 it["e"] = e
             items[iid] = it
@@ -279,7 +282,7 @@ def main():
         elif i.get("x") and "sm" not in i:
             first = re.split(r"(?<=[.!?])\s", i["x"], maxsplit=1)[0]
             i["sm"] = first[:220]
-    out = dict(updated=datetime.date.today().isoformat(), categories=tax["categories"], tags=tax["tags"], types=tax["types"],
+    out = dict(updated=TODAY, categories=tax["categories"], tags=tax["tags"], types=tax["types"],
                items=sorted(items.values(), key=lambda i: i["d"] or "", reverse=True))
     json.dump(out, open(items_p, "w"), ensure_ascii=False, separators=(",", ":"))
     json.dump(cache, open(cache_p, "w"), indent=0, sort_keys=True)
