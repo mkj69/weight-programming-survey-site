@@ -20,10 +20,10 @@ jobs:
         id: gate
         run: |
           today=$(TZ=America/Chicago date +%F); hour=$(TZ=America/Chicago date +%H)
-          last=$(python3 -c "import json;print(json.load(open('data/items.json'))['updated'])")
+          last=$(python3 -c "import json;d=json.load(open('data/items.json'));print(d.get('updated_at', d['updated'] + 'T00:00'))")
           if [ "${{ github.event_name }}" != "schedule" ]; then go=yes
           elif [ "$hour" -lt 8 ]; then go=no; echo "Before 8:00 in Chicago."
-          elif [ "$last" = "$today" ]; then go=no; echo "Already updated today ($today)."
+          elif [[ "$last" > "${today}T07:59" ]]; then go=no; echo "Already updated after 8:00 today ($last)."
           else go=yes; fi
           echo "go=$go" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-python@v5

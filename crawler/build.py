@@ -9,7 +9,8 @@
 import argparse, datetime, hashlib, json, os, re, sys, urllib.parse, urllib.request
 from zoneinfo import ZoneInfo
 
-TODAY = datetime.datetime.now(ZoneInfo("America/Chicago")).date().isoformat()
+NOW = datetime.datetime.now(ZoneInfo("America/Chicago"))
+TODAY = NOW.date().isoformat()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -282,7 +283,7 @@ def main():
         elif i.get("x") and "sm" not in i:
             first = re.split(r"(?<=[.!?])\s", i["x"], maxsplit=1)[0]
             i["sm"] = first[:220]
-    out = dict(updated=TODAY, categories=tax["categories"], tags=tax["tags"], types=tax["types"],
+    out = dict(updated=TODAY, updated_at=NOW.strftime("%Y-%m-%dT%H:%M"), categories=tax["categories"], tags=tax["tags"], types=tax["types"],
                items=sorted(items.values(), key=lambda i: i["d"] or "", reverse=True))
     json.dump(out, open(items_p, "w"), ensure_ascii=False, separators=(",", ":"))
     json.dump(cache, open(cache_p, "w"), indent=0, sort_keys=True)
