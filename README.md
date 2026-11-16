@@ -2,7 +2,7 @@
 
 A reading list and reader for work on the weight space of neural networks: LLMs that read and
 write weights, programs compiled into weights, weight editing and model diffs, fast weights and
-self-modifying networks, and weight-space learning. It covers over 4,000 papers, posts,
+self-modifying networks, and weight-space learning. It covers over 5,000 papers, posts,
 repositories, and discussions, each with a one-sentence summary, plus a timeline map of the
 classic works.
 
